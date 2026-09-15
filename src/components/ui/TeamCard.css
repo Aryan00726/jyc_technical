@@ -1,0 +1,140 @@
+.team-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-8) var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+  gap: var(--space-3);
+}
+
+.team-card:hover {
+  border-color: var(--color-border-bright);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ── PHOTO ─────────────────────────────────────────────────────────────── */
+
+.team-card__photo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-accent-subtle);
+  border: 2px solid var(--color-border-bright);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: var(--space-2);
+}
+
+.team-card--faculty .team-card__photo {
+  width: 88px;
+  height: 88px;
+  border-color: var(--color-accent);
+}
+
+.team-card--core .team-card__photo {
+  border-color: rgba(108, 99, 255, 0.5);
+}
+
+.team-card__photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-card__photo-initials {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-xl);
+  color: var(--color-accent);
+}
+
+/* ── INFO ──────────────────────────────────────────────────────────────── */
+
+.team-card__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.team-card__name {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.team-card__role {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-accent);
+}
+
+.team-card__dept {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+}
+
+.team-card__bio {
+  font-size: var(--text-sm);
+  color: var(--color-text-dim);
+  line-height: var(--leading-normal);
+  margin-top: var(--space-2);
+}
+
+/* ── CONTACT ───────────────────────────────────────────────────────────── */
+
+.team-card__contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  width: 100%;
+}
+
+.team-card__contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-dim);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.team-card__contact-link:hover {
+  color: var(--color-accent);
+}
+
+/* Volunteer cards are more compact */
+.team-card--volunteer {
+  padding: var(--space-6);
+}
+
+.team-card--volunteer .team-card__photo {
+  width: 56px;
+  height: 56px;
+}
+
+.team-card--volunteer .team-card__photo-initials {
+  font-size: var(--text-lg);
+}
+
+.team-card--volunteer .team-card__bio {
+  display: none;
+}

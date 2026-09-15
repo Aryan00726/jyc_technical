@@ -1,0 +1,130 @@
+/**
+ * DESIGN TOKENS
+ * =============
+ * Single source of truth for the entire visual system.
+ * Import this first in main.jsx so all components inherit these.
+ */
+
+:root {
+  /* ── COLORS ──────────────────────────────────────────────────────────── */
+
+  /* Base surfaces */
+  --color-void:       #040507;   /* True background — deepest level          */
+  --color-surface:    #0A0C12;   /* Elevated surface (cards, navbar)          */
+  --color-surface-2:  #10131D;   /* Double-elevated surface                   */
+  --color-border:     #1C2030;   /* Subtle dividers                           */
+  --color-border-bright: #2A3050;/* Hover/focus borders                       */
+
+  /* Text */
+  --color-text:       #E8EAF4;   /* Primary readable text                     */
+  --color-text-dim:   #8890B0;   /* Secondary labels, captions                */
+  --color-text-muted: #454D70;   /* Timestamps, placeholders                  */
+
+  /* Accent — Indigo Violet */
+  --color-accent:        #6C63FF;
+  --color-accent-hover:  #836AFF;
+  --color-accent-glow:   rgba(108, 99, 255, 0.30);
+  --color-accent-subtle: rgba(108, 99, 255, 0.08);
+
+  /* Secondary accent — Electric Cyan (used minimally, 3D atmosphere) */
+  --color-cyan:       #00D4FF;
+  --color-cyan-glow:  rgba(0, 212, 255, 0.20);
+
+  /* Semantic */
+  --color-success:    #22C55E;
+  --color-error:      #F43F5E;
+
+  /* ── TYPOGRAPHY ───────────────────────────────────────────────────────── */
+
+  /* Font families — loaded via Google Fonts in index.html */
+  --font-display: 'Syne', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  /* Font sizes — fluid clamp scale */
+  --text-xs:    clamp(0.70rem,  0.70vw, 0.80rem);
+  --text-sm:    clamp(0.82rem,  0.85vw, 0.95rem);
+  --text-base:  clamp(0.95rem,  1.05vw, 1.10rem);
+  --text-lg:    clamp(1.10rem,  1.20vw, 1.30rem);
+  --text-xl:    clamp(1.30rem,  1.60vw, 1.75rem);
+  --text-2xl:   clamp(1.75rem,  2.40vw, 2.50rem);
+  --text-3xl:   clamp(2.25rem,  3.50vw, 3.50rem);
+  --text-hero:  clamp(3.00rem,  7.00vw, 7.50rem);
+
+  /* Font weights */
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold:600;
+  --weight-bold:    700;
+  --weight-black:   800;
+
+  /* Line heights */
+  --leading-tight:  1.15;
+  --leading-snug:   1.35;
+  --leading-normal: 1.55;
+  --leading-loose:  1.75;
+
+  /* Letter spacing */
+  --tracking-tight:  -0.03em;
+  --tracking-normal:  0.00em;
+  --tracking-wide:    0.06em;
+  --tracking-widest:  0.12em;
+
+  /* ── SPACING (8-point grid) ───────────────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* Section vertical padding */
+  --section-py-sm: clamp(48px, 8vw, 80px);
+  --section-py:    clamp(64px, 10vw, 120px);
+  --section-py-lg: clamp(80px, 12vw, 160px);
+
+  /* ── LAYOUT ───────────────────────────────────────────────────────────── */
+  --max-width:        1280px;
+  --container-px:     clamp(20px, 5vw, 48px);
+  --nav-height:       68px;
+
+  /* ── BORDERS & RADIUS ─────────────────────────────────────────────────── */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  20px;
+  --radius-2xl: 32px;
+  --radius-pill: 9999px;
+
+  /* ── SHADOWS ──────────────────────────────────────────────────────────── */
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.5);
+  --shadow-md:   0 4px 16px rgba(0,0,0,0.6);
+  --shadow-lg:   0 8px 40px rgba(0,0,0,0.7);
+  --shadow-glow: 0 0 40px var(--color-accent-glow);
+
+  /* ── TRANSITIONS ──────────────────────────────────────────────────────── */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast:   150ms;
+  --duration-base:   250ms;
+  --duration-slow:   400ms;
+  --duration-cinematic: 800ms;
+
+  /* ── Z-INDEX ──────────────────────────────────────────────────────────── */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-overlay: 100;
+  --z-nav:     200;
+  --z-modal:   300;
+  --z-top:     400;
+
+  /* ── BREAKPOINTS (for JS/media queries reference) ──────────────────────── */
+  /* sm: 480px  |  md: 768px  |  lg: 1024px  |  xl: 1280px  |  2xl: 1920px */
+}

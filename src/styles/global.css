@@ -1,0 +1,198 @@
+/**
+ * GLOBAL STYLES
+ * =============
+ * Base styles applied to the whole document.
+ * Component-specific styles live in their own .css files.
+ */
+
+/* ── BASE ──────────────────────────────────────────────────────────────── */
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background-color: var(--color-void);
+  overflow-x: hidden;
+}
+
+/* ── TYPOGRAPHY ────────────────────────────────────────────────────────── */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--color-text);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+p {
+  color: var(--color-text-dim);
+  line-height: var(--leading-normal);
+}
+
+strong {
+  color: var(--color-text);
+  font-weight: var(--weight-semibold);
+}
+
+code, kbd {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+}
+
+/* ── LAYOUT UTILITIES ──────────────────────────────────────────────────── */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-px);
+}
+
+.section {
+  padding-block: var(--section-py);
+}
+
+.section--sm {
+  padding-block: var(--section-py-sm);
+}
+
+.section--lg {
+  padding-block: var(--section-py-lg);
+}
+
+/* ── BACKGROUND UTILITIES ──────────────────────────────────────────────── */
+
+.bg-noise {
+  position: relative;
+}
+
+.bg-noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Ambient glow blobs */
+.ambient {
+  position: relative;
+  overflow: hidden;
+}
+
+.ambient__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient__blob--accent {
+  background: var(--color-accent);
+}
+
+.ambient__blob--cyan {
+  background: var(--color-cyan);
+}
+
+/* ── GRID UTILITIES ────────────────────────────────────────────────────── */
+
+.grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .grid-2,
+  .grid-3,
+  .grid-4 { grid-template-columns: 1fr; }
+}
+
+/* ── FLEX UTILITIES ────────────────────────────────────────────────────── */
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ── DIVIDER ───────────────────────────────────────────────────────────── */
+
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  border: none;
+  margin-block: 0;
+}
+
+/* ── SCROLL ANIMATION STATES ───────────────────────────────────────────── */
+/* Used by GSAP ScrollTrigger — initial hidden state */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+/* ── PAGE WRAPPER ──────────────────────────────────────────────────────── */
+
+.page {
+  min-height: 100svh;
+}
+
+/* ── SELECTION ─────────────────────────────────────────────────────────── */
+
+::selection {
+  background: var(--color-accent-glow);
+  color: var(--color-text);
+}
+
+/* ── SCROLLBAR ─────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-bright);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
