@@ -1,11 +1,13 @@
+/* ── JYC BUTTON PRIMITIVE ──────────────────────────────────────────────── */
+
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
   font-family: var(--font-body);
-  font-weight: var(--weight-medium);
-  letter-spacing: 0.03em;
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
   border: none;
   border-radius: var(--radius-md);
   cursor: pointer;
@@ -22,7 +24,7 @@
 }
 
 .btn:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--jyc-gold);
   outline-offset: 3px;
 }
 
@@ -34,31 +36,48 @@
 
 .btn--sm {
   font-size: var(--text-sm);
-  padding: 8px 16px;
+  padding: 8px 18px;
 }
 
 .btn--md {
   font-size: var(--text-base);
-  padding: 11px 24px;
+  padding: 12px 26px;
 }
 
 .btn--lg {
   font-size: var(--text-lg);
-  padding: 14px 32px;
+  padding: 15px 34px;
 }
 
 /* ── VARIANTS ──────────────────────────────────────────────────────────── */
 
+/* Primary Maroon Button with Gold Accent */
 .btn--primary {
-  background: var(--color-accent);
-  color: #fff;
+  background: var(--jyc-maroon);
+  color: var(--jyc-cream);
+  border: 1px solid rgba(238, 215, 154, 0.25);
 }
 
 .btn--primary:hover {
-  background: var(--color-accent-hover);
-  box-shadow: 0 0 24px var(--color-accent-glow);
+  background: var(--color-brand-maroon-hover);
+  color: var(--jyc-gold-light);
+  box-shadow: 0 0 24px var(--color-brand-maroon-glow);
 }
 
+/* Gold Accent Button */
+.btn--gold {
+  background: var(--jyc-gold);
+  color: var(--jyc-black);
+  border: 1px solid var(--jyc-gold);
+  font-weight: var(--weight-bold);
+}
+
+.btn--gold:hover {
+  background: var(--jyc-gold-light);
+  box-shadow: 0 0 28px var(--color-accent-glow);
+}
+
+/* Ghost / Secondary Button */
 .btn--ghost {
   background: transparent;
   color: var(--color-text);
@@ -66,24 +85,26 @@
 }
 
 .btn--ghost:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-  background: var(--color-accent-subtle);
+  border-color: var(--jyc-gold);
+  color: var(--jyc-gold);
+  background: rgba(238, 215, 154, 0.08);
 }
 
+/* Text Link Variant */
 .btn--text {
   background: transparent;
-  color: var(--color-accent);
+  color: var(--jyc-gold);
   padding-inline: 0;
+  border-radius: 0;
 }
 
 .btn--text:hover {
-  color: var(--color-accent-hover);
+  color: var(--jyc-gold-light);
 }
 
 .btn--text::after {
   content: '→';
-  margin-left: 4px;
+  margin-left: 6px;
   transition: transform var(--duration-fast) var(--ease-out);
 }
 

@@ -1,0 +1,37 @@
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.section-label--gold {
+  color: var(--jyc-gold);
+  background: rgba(238, 215, 154, 0.08);
+  border: 1px solid rgba(238, 215, 154, 0.22);
+}
+
+.section-label--maroon {
+  color: var(--jyc-cream);
+  background: rgba(127, 30, 29, 0.30);
+  border: 1px solid rgba(127, 30, 29, 0.50);
+}
+
+.section-label--muted {
+  color: var(--color-text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--color-border);
+}
+
+.section-label__icon {
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+}

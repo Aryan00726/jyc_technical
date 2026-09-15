@@ -9,6 +9,7 @@ const navLinks = [
   { to: '/lectures', label: 'Lectures' },
   { to: '/team',     label: 'Team'     },
   { to: '/about',    label: 'About'    },
+  { to: '/preview',  label: 'Design System' },
 ]
 
 export default function Navbar() {
@@ -16,50 +17,48 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef(null)
 
-  // Show glass effect after scrolling 50px
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50)
+    const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close menu on route change / outside click
   useEffect(() => {
     const onKeyDown = (e) => { if (e.key === 'Escape') setMenuOpen(false) }
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [])
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
-  // Find social links to show in nav
   const instagramLink = socialLinks.find((s) => s.id === 'instagram')
   const githubLink    = socialLinks.find((s) => s.id === 'github')
 
   return (
     <>
       <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`} role="banner">
-        {/* Skip to main content */}
         <a href="#main-content" className="skip-link">Skip to content</a>
 
         <div className="navbar__inner container">
-          {/* Logo */}
+          {/* JYC Emblem Logo */}
           <Link to="/" className="navbar__logo" aria-label={`${site.name} — Home`}>
             <span className="navbar__logo-mark" aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
-                <polygon points="20,2 38,11 38,29 20,38 2,29 2,11" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
-                <polygon points="20,8 32,14 32,26 20,32 8,26 8,14" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.75" />
-                <circle cx="20" cy="20" r="4" fill="currentColor" />
+              <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                <circle cx="20" cy="20" r="18" fill="#7F1E1D" stroke="#EED79A" strokeWidth="1.5" />
+                <path d="M20 7L24 16L32 20L24 24L20 33L16 24L8 20L16 16L20 7Z" fill="#EED79A" />
+                <circle cx="20" cy="20" r="3" fill="#7F1E1D" />
               </svg>
             </span>
-            <span className="navbar__logo-text">{site.name}</span>
+            <div className="navbar__logo-brand">
+              <span className="navbar__logo-text">JYC TECHNICAL</span>
+              <span className="navbar__logo-subtext">READY TO SOAR</span>
+            </div>
           </Link>
 
-          {/* Desktop navigation */}
+          {/* Desktop Navigation */}
           <nav className="navbar__nav" aria-label="Main navigation">
             <ul className="navbar__links" role="list">
               {navLinks.map(({ to, label }) => (
@@ -78,7 +77,7 @@ export default function Navbar() {
             </ul>
           </nav>
 
-          {/* Social icons (desktop) */}
+          {/* Social Icons (Desktop) */}
           <div className="navbar__social" aria-label="Social links">
             {instagramLink && (
               <a
@@ -110,7 +109,7 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Hamburger (mobile) */}
+          {/* Hamburger (Mobile) */}
           <button
             className={`navbar__hamburger ${menuOpen ? 'navbar__hamburger--open' : ''}`}
             onClick={() => setMenuOpen((v) => !v)}
@@ -125,7 +124,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile menu overlay */}
+      {/* Mobile Drawer */}
       <div
         id="mobile-menu"
         ref={menuRef}
@@ -150,22 +149,6 @@ export default function Navbar() {
             ))}
           </ul>
         </nav>
-
-        {/* Mobile social links */}
-        <div className="mobile-menu__social">
-          {socialLinks.map((s) => (
-            <a
-              key={s.id}
-              href={s.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mobile-menu__social-link"
-              aria-label={s.label}
-            >
-              {s.platform}
-            </a>
-          ))}
-        </div>
       </div>
     </>
   )

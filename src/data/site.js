@@ -7,18 +7,18 @@
 
 export const site = {
   // Club identity
-  name: 'CodeCraft',
-  fullName: 'CodeCraft — Student Tech Club',
-  tagline: 'Engineering Tomorrow, Today.',
+  name: 'JYC Technical',
+  fullName: 'Jaypee Youth Club — Technical Wing',
+  tagline: 'READY TO SOAR',
   description:
-    'A student-led club dedicated to building, learning, and innovating at the intersection of software, systems, and community.',
+    'A student-led technical community built around curiosity, hands-on learning, workshops, and the people who pursue engineering together.',
 
   // Meta / SEO
-  url: 'https://codecraft.club', // TODO: update with real domain
-  ogImage: '/og-image.png',     // TODO: add real OG image to /public
+  url: 'https://jyctechnical.org',
+  ogImage: '/og-image.png',
 
   // College affiliation
-  college: 'Delhi Technological University',
+  college: 'Jaypee Institute of Information Technology',
 
   // Club stats (update with real numbers)
   stats: [

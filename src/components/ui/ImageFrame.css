@@ -1,0 +1,93 @@
+/* ── IMAGE FRAME PRIMITIVE ────────────────────────────────────────────── */
+
+.image-frame {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  width: 100%;
+}
+
+.image-frame__container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background-color: var(--jyc-dark-2);
+}
+
+.image-frame--bordered .image-frame__container {
+  border: 1px solid rgba(238, 215, 154, 0.20);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+}
+
+/* Aspect Ratios */
+.image-frame--aspect-16-9 .image-frame__container { aspect-ratio: 16 / 9; }
+.image-frame--aspect-4-5 .image-frame__container  { aspect-ratio: 4 / 5; }
+.image-frame--aspect-3-2 .image-frame__container  { aspect-ratio: 3 / 2; }
+.image-frame--aspect-21-9 .image-frame__container { aspect-ratio: 21 / 9; }
+
+/* Image element */
+.image-frame__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out), transform var(--duration-cinematic) var(--ease-out);
+}
+
+.image-frame__img--loaded {
+  opacity: 1;
+}
+
+.image-frame:hover .image-frame__img--loaded {
+  transform: scale(1.025);
+}
+
+/* Skeleton Loading State */
+.image-frame__skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--jyc-dark) 0%,
+    rgba(238, 215, 154, 0.08) 50%,
+    var(--jyc-dark) 100%
+  );
+  background-size: 200% 100%;
+  animation: frameSkeleton 1.8s infinite;
+}
+
+@keyframes frameSkeleton {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Subtle gradient vignette overlay to unify photos into brand atmosphere */
+.image-frame__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 60%,
+    rgba(10, 8, 6, 0.40) 100%
+  );
+  pointer-events: none;
+}
+
+/* Caption */
+.image-frame__caption {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  letter-spacing: var(--tracking-wide);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.image-frame__caption-mark {
+  color: var(--jyc-gold);
+  font-weight: var(--weight-bold);
+}

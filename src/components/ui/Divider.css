@@ -1,0 +1,26 @@
+.divider-phoenix {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  margin-block: var(--space-8);
+  opacity: 0.6;
+}
+
+.divider-phoenix__line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-border-bright),
+    transparent
+  );
+}
+
+.divider-phoenix__emblem {
+  color: var(--jyc-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

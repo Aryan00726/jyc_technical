@@ -8,6 +8,7 @@ const Home      = lazy(() => import('./pages/Home'))
 const Lectures  = lazy(() => import('./pages/Lectures'))
 const Team      = lazy(() => import('./pages/Team'))
 const About     = lazy(() => import('./pages/About'))
+const Preview   = lazy(() => import('./components/ui/StylePreview'))
 const NotFound  = lazy(() => import('./pages/NotFound'))
 
 // Simple page fallback while a route chunk loads
@@ -23,10 +24,11 @@ function PageFallback() {
     >
       <div
         style={{
-          width: '6px',
-          height: '6px',
+          width: '8px',
+          height: '8px',
           borderRadius: '50%',
-          background: 'var(--color-accent)',
+          background: 'var(--jyc-gold)',
+          boxShadow: '0 0 16px var(--jyc-gold)',
           animation: 'pulseGlow 1.2s ease-in-out infinite',
         }}
       />
@@ -48,6 +50,7 @@ function AppRoutes() {
           <Route path="/lectures" element={<Lectures />} />
           <Route path="/team"     element={<Team />} />
           <Route path="/about"    element={<About />} />
+          <Route path="/preview"  element={<Preview />} />
           <Route path="*"         element={<NotFound />} />
         </Routes>
       </Suspense>

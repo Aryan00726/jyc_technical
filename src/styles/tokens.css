@@ -1,55 +1,71 @@
 /**
- * DESIGN TOKENS
- * =============
- * Single source of truth for the entire visual system.
- * Import this first in main.jsx so all components inherit these.
+ * JYC TECHNICAL DESIGN TOKENS
+ * ===========================
+ * Derived directly from the JYC emblem and brand identity.
+ * Primary Palette: Gold (#EED79A) & Maroon (#7F1E1D)
+ * Aesthetic: Warm, Institutional, Technical, Cinematic, Human
  */
 
 :root {
-  /* ── COLORS ──────────────────────────────────────────────────────────── */
+  /* ── BRAND PALETTE (STRICT HARD CONSTANTS) ────────────────────────────── */
+  --jyc-gold:         #EED79A;
+  --jyc-gold-light:   #F7E4B2;
+  --jyc-gold-muted:   #CBB67A;
+  --jyc-maroon:       #7F1E1D;
+  --jyc-maroon-light: #9E2625;
+  --jyc-maroon-dark:  #4A0F0E;
 
-  /* Base surfaces */
-  --color-void:       #040507;   /* True background — deepest level          */
-  --color-surface:    #0A0C12;   /* Elevated surface (cards, navbar)          */
-  --color-surface-2:  #10131D;   /* Double-elevated surface                   */
-  --color-border:     #1C2030;   /* Subtle dividers                           */
-  --color-border-bright: #2A3050;/* Hover/focus borders                       */
+  /* ── SUPPORTING SURFACES & NEUTRALS ────────────────────────────────────── */
+  --jyc-black:        #0A0806;   /* Deepest background                        */
+  --jyc-dark:         #12100D;   /* Elevated surface (cards, headers)         */
+  --jyc-dark-2:       #1B1814;   /* High-elevation surface                    */
+  --jyc-cream:        #F6EBC7;   /* Primary readable text                     */
+  --jyc-cream-dim:    #D8CBAB;   /* Secondary body text                       */
+  --jyc-muted:        #8D8475;   /* Captions & subtle labels                  */
 
-  /* Text */
-  --color-text:       #E8EAF4;   /* Primary readable text                     */
-  --color-text-dim:   #8890B0;   /* Secondary labels, captions                */
-  --color-text-muted: #454D70;   /* Timestamps, placeholders                  */
+  /* ── SEMANTIC TOKEN ALIASES ────────────────────────────────────────────── */
+  --color-void:             var(--jyc-black);
+  --color-surface:          var(--jyc-dark);
+  --color-surface-2:        var(--jyc-dark-2);
+  --color-border:           rgba(238, 215, 154, 0.14);
+  --color-border-bright:    rgba(238, 215, 154, 0.32);
+  --color-border-maroon:    rgba(127, 30, 29, 0.40);
 
-  /* Accent — Indigo Violet */
-  --color-accent:        #6C63FF;
-  --color-accent-hover:  #836AFF;
-  --color-accent-glow:   rgba(108, 99, 255, 0.30);
-  --color-accent-subtle: rgba(108, 99, 255, 0.08);
+  /* Text colors */
+  --color-text:             var(--jyc-cream);
+  --color-text-dim:         var(--jyc-cream-dim);
+  --color-text-muted:       var(--jyc-muted);
 
-  /* Secondary accent — Electric Cyan (used minimally, 3D atmosphere) */
-  --color-cyan:       #00D4FF;
-  --color-cyan-glow:  rgba(0, 212, 255, 0.20);
+  /* Accent mapping — Gold & Maroon */
+  --color-accent:           var(--jyc-gold);
+  --color-accent-hover:     var(--jyc-gold-light);
+  --color-accent-glow:      rgba(238, 215, 154, 0.24);
+  --color-accent-subtle:    rgba(238, 215, 154, 0.08);
 
-  /* Semantic */
-  --color-success:    #22C55E;
-  --color-error:      #F43F5E;
+  --color-brand-maroon:     var(--jyc-maroon);
+  --color-brand-maroon-hover: var(--jyc-maroon-light);
+  --color-brand-maroon-glow:  rgba(127, 30, 29, 0.35);
+  --color-brand-maroon-subtle: rgba(127, 30, 29, 0.12);
+
+  /* Semantic status */
+  --color-success:          #2E8B57;
+  --color-error:            #C0392B;
 
   /* ── TYPOGRAPHY ───────────────────────────────────────────────────────── */
+  /* Display font: Outfit (emblem compatible, crisp), Body: Inter / Plus Jakarta */
+  --font-display: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body:    'Inter', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono:    'Plus Jakarta Sans', system-ui, sans-serif; /* Clean readable fallback, no fake codemono */
 
-  /* Font families — loaded via Google Fonts in index.html */
-  --font-display: 'Syne', system-ui, sans-serif;
-  --font-body:    'Inter', system-ui, sans-serif;
-  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
-
-  /* Font sizes — fluid clamp scale */
-  --text-xs:    clamp(0.70rem,  0.70vw, 0.80rem);
-  --text-sm:    clamp(0.82rem,  0.85vw, 0.95rem);
-  --text-base:  clamp(0.95rem,  1.05vw, 1.10rem);
-  --text-lg:    clamp(1.10rem,  1.20vw, 1.30rem);
-  --text-xl:    clamp(1.30rem,  1.60vw, 1.75rem);
-  --text-2xl:   clamp(1.75rem,  2.40vw, 2.50rem);
-  --text-3xl:   clamp(2.25rem,  3.50vw, 3.50rem);
-  --text-hero:  clamp(3.00rem,  7.00vw, 7.50rem);
+  /* Fluid text clamp scale */
+  --text-xs:    clamp(0.72rem, 0.75vw, 0.82rem);
+  --text-sm:    clamp(0.84rem, 0.90vw, 0.96rem);
+  --text-base:  clamp(0.96rem, 1.05vw, 1.10rem);
+  --text-lg:    clamp(1.12rem, 1.25vw, 1.32rem);
+  --text-xl:    clamp(1.35rem, 1.65vw, 1.80rem);
+  --text-2xl:   clamp(1.80rem, 2.50vw, 2.60rem);
+  --text-3xl:   clamp(2.40rem, 3.60vw, 3.60rem);
+  --text-hero:  clamp(3.20rem, 7.20vw, 7.80rem);
 
   /* Font weights */
   --weight-regular: 400;
@@ -59,16 +75,16 @@
   --weight-black:   800;
 
   /* Line heights */
-  --leading-tight:  1.15;
-  --leading-snug:   1.35;
+  --leading-tight:  1.12;
+  --leading-snug:   1.30;
   --leading-normal: 1.55;
   --leading-loose:  1.75;
 
   /* Letter spacing */
-  --tracking-tight:  -0.03em;
+  --tracking-tight:  -0.02em;
   --tracking-normal:  0.00em;
   --tracking-wide:    0.06em;
-  --tracking-widest:  0.12em;
+  --tracking-widest:  0.15em;
 
   /* ── SPACING (8-point grid) ───────────────────────────────────────────── */
   --space-1:  4px;
@@ -90,28 +106,28 @@
   --section-py:    clamp(64px, 10vw, 120px);
   --section-py-lg: clamp(80px, 12vw, 160px);
 
-  /* ── LAYOUT ───────────────────────────────────────────────────────────── */
+  /* ── LAYOUT & CONTAINER ────────────────────────────────────────────────── */
   --max-width:        1280px;
   --container-px:     clamp(20px, 5vw, 48px);
-  --nav-height:       68px;
+  --nav-height:       72px;
 
   /* ── BORDERS & RADIUS ─────────────────────────────────────────────────── */
-  --radius-sm:  4px;
-  --radius-md:  8px;
-  --radius-lg:  12px;
-  --radius-xl:  20px;
-  --radius-2xl: 32px;
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   14px;
+  --radius-xl:   22px;
   --radius-pill: 9999px;
 
-  /* ── SHADOWS ──────────────────────────────────────────────────────────── */
-  --shadow-sm:   0 1px 3px rgba(0,0,0,0.5);
-  --shadow-md:   0 4px 16px rgba(0,0,0,0.6);
-  --shadow-lg:   0 8px 40px rgba(0,0,0,0.7);
-  --shadow-glow: 0 0 40px var(--color-accent-glow);
+  /* ── SHADOWS & GLOWS ──────────────────────────────────────────────────── */
+  --shadow-sm:     0 2px 6px rgba(0, 0, 0, 0.4);
+  --shadow-md:     0 6px 20px rgba(0, 0, 0, 0.6);
+  --shadow-lg:     0 12px 48px rgba(0, 0, 0, 0.8);
+  --shadow-gold:   0 0 32px var(--color-accent-glow);
+  --shadow-maroon: 0 0 32px var(--color-brand-maroon-glow);
 
   /* ── TRANSITIONS ──────────────────────────────────────────────────────── */
-  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out:         cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:     cubic-bezier(0.4, 0, 0.2, 1);
   --duration-fast:   150ms;
   --duration-base:   250ms;
   --duration-slow:   400ms;
@@ -124,7 +140,4 @@
   --z-nav:     200;
   --z-modal:   300;
   --z-top:     400;
-
-  /* ── BREAKPOINTS (for JS/media queries reference) ──────────────────────── */
-  /* sm: 480px  |  md: 768px  |  lg: 1024px  |  xl: 1280px  |  2xl: 1920px */
 }

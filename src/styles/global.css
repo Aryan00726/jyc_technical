@@ -1,8 +1,8 @@
 /**
- * GLOBAL STYLES
- * =============
- * Base styles applied to the whole document.
- * Component-specific styles live in their own .css files.
+ * JYC TECHNICAL GLOBAL STYLES
+ * ============================
+ * Base styles applied to the entire document.
+ * Reflects warm institutional warmth, maroon/gold brand identity, and clean readability.
  */
 
 /* ── BASE ──────────────────────────────────────────────────────────────── */
@@ -13,6 +13,8 @@ body {
   color: var(--color-text);
   background-color: var(--color-void);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ── TYPOGRAPHY ────────────────────────────────────────────────────────── */
@@ -22,6 +24,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
+  font-weight: var(--weight-bold);
 }
 
 p {
@@ -30,17 +33,18 @@ p {
 }
 
 strong {
-  color: var(--color-text);
+  color: var(--color-accent);
   font-weight: var(--weight-semibold);
 }
 
 code, kbd {
   font-family: var(--font-mono);
   font-size: 0.9em;
-  background: var(--color-surface);
+  background: var(--color-surface-2);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  padding: 2px 6px;
+  padding: 2px 8px;
+  color: var(--color-accent);
 }
 
 /* ── LAYOUT UTILITIES ──────────────────────────────────────────────────── */
@@ -54,18 +58,22 @@ code, kbd {
 
 .section {
   padding-block: var(--section-py);
+  position: relative;
 }
 
 .section--sm {
   padding-block: var(--section-py-sm);
+  position: relative;
 }
 
 .section--lg {
   padding-block: var(--section-py-lg);
+  position: relative;
 }
 
 /* ── BACKGROUND UTILITIES ──────────────────────────────────────────────── */
 
+/* Subtle film grain texture */
 .bg-noise {
   position: relative;
 }
@@ -74,12 +82,12 @@ code, kbd {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 1;
 }
 
-/* Ambient glow blobs */
+/* Ambient glow blobs (Gold & Maroon warmth) */
 .ambient {
   position: relative;
   overflow: hidden;
@@ -88,18 +96,18 @@ code, kbd {
 .ambient__blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.18;
+  filter: blur(140px);
+  opacity: 0.16;
   pointer-events: none;
   z-index: 0;
 }
 
-.ambient__blob--accent {
-  background: var(--color-accent);
+.ambient__blob--gold {
+  background: var(--jyc-gold);
 }
 
-.ambient__blob--cyan {
-  background: var(--color-cyan);
+.ambient__blob--maroon {
+  background: var(--jyc-maroon);
 }
 
 /* ── GRID UTILITIES ────────────────────────────────────────────────────── */
@@ -142,57 +150,62 @@ code, kbd {
 
 .divider {
   height: 1px;
-  background: var(--color-border);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-border-bright) 50%,
+    transparent 100%
+  );
   border: none;
   margin-block: 0;
 }
 
 /* ── SCROLL ANIMATION STATES ───────────────────────────────────────────── */
-/* Used by GSAP ScrollTrigger — initial hidden state */
 
 .reveal {
   opacity: 0;
-  transform: translateY(32px);
+  transform: translateY(28px);
 }
 
 .reveal-left {
   opacity: 0;
-  transform: translateX(-32px);
+  transform: translateX(-28px);
 }
 
 .reveal-scale {
   opacity: 0;
-  transform: scale(0.92);
+  transform: scale(0.94);
 }
 
 /* ── PAGE WRAPPER ──────────────────────────────────────────────────────── */
 
 .page {
   min-height: 100svh;
+  background-color: var(--color-void);
 }
 
 /* ── SELECTION ─────────────────────────────────────────────────────────── */
 
 ::selection {
-  background: var(--color-accent-glow);
-  color: var(--color-text);
+  background: var(--color-brand-maroon);
+  color: var(--jyc-gold);
 }
 
 /* ── SCROLLBAR ─────────────────────────────────────────────────────────── */
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-void);
+  background: var(--jyc-black);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-bright);
+  background: rgba(238, 215, 154, 0.25);
   border-radius: var(--radius-pill);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-muted);
+  background: var(--jyc-gold);
 }
