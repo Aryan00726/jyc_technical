@@ -22,22 +22,25 @@ export default function LectureCard({ lecture, className = '' }) {
   } = lecture
 
   const categoryClass = category?.toLowerCase().replace('/', '-') ?? 'default'
-  const youtubeUrl = `https://www.youtube.com/watch?v=${youtubeId}`
-  const thumbnailUrl = `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`
+  const isPlaceholder = !youtubeId || youtubeId.startsWith('placeholder')
+  const youtubeUrl = isPlaceholder ? '#' : `https://www.youtube.com/watch?v=${youtubeId}`
+  const thumbnailUrl = lecture.thumbnail || (isPlaceholder ? null : `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`)
 
   return (
     <article className={`lecture-card ${className}`.trim()}>
       {/* Thumbnail */}
       <div className="lecture-card__thumb">
-        <img
-          src={thumbnailUrl}
-          alt={`Thumbnail for: ${title}`}
-          loading="lazy"
-          className="lecture-card__thumb-img"
-          onError={(e) => {
-            e.currentTarget.style.display = 'none'
-          }}
-        />
+        {thumbnailUrl && (
+          <img
+            src={thumbnailUrl}
+            alt={`Thumbnail for: ${title}`}
+            loading="lazy"
+            className="lecture-card__thumb-img"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+            }}
+          />
+        )}
         <div className="lecture-card__thumb-overlay" aria-hidden="true" />
         {duration && (
           <span className="lecture-card__duration" aria-label={`Duration: ${duration}`}>

@@ -46,11 +46,13 @@ export default function Navbar() {
           {/* JYC Emblem Logo */}
           <Link to="/" className="navbar__logo" aria-label={`${site.name} — Home`}>
             <span className="navbar__logo-mark" aria-hidden="true">
-              <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
-                <circle cx="20" cy="20" r="18" fill="#7F1E1D" stroke="#EED79A" strokeWidth="1.5" />
-                <path d="M20 7L24 16L32 20L24 24L20 33L16 24L8 20L16 16L20 7Z" fill="#EED79A" />
-                <circle cx="20" cy="20" r="3" fill="#7F1E1D" />
-              </svg>
+              <img
+                src="/logo.png"
+                alt="JYC Logo"
+                width="38"
+                height="38"
+                style={{ borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(238, 215, 154, 0.4)' }}
+              />
             </span>
             <div className="navbar__logo-brand">
               <span className="navbar__logo-text">JYC TECHNICAL</span>
