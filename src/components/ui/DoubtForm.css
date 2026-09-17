@@ -1,0 +1,135 @@
+.doubt-form {
+  background: rgba(18, 16, 13, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8), 0 0 24px var(--color-accent-glow);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.doubt-form__header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.doubt-form__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.doubt-form__subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-dim);
+}
+
+.doubt-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.doubt-form__label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-accent);
+  text-transform: uppercase;
+}
+
+.doubt-form__input,
+.doubt-form__select,
+.doubt-form__textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  outline: none;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.doubt-form__input:focus,
+.doubt-form__select:focus,
+.doubt-form__textarea:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 12px var(--color-accent-glow);
+}
+
+.doubt-form__textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.doubt-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+@media (max-width: 640px) {
+  .doubt-form__row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.doubt-form__error {
+  padding: 10px 14px;
+  background: rgba(192, 57, 43, 0.2);
+  border: 1px solid rgba(192, 57, 43, 0.5);
+  border-radius: var(--radius-md);
+  color: #ff6b6b;
+  font-size: var(--text-xs);
+}
+
+.doubt-form__success {
+  padding: 10px 14px;
+  background: rgba(46, 139, 87, 0.2);
+  border: 1px solid rgba(46, 139, 87, 0.5);
+  border-radius: var(--radius-md);
+  color: #5cdb95;
+  font-size: var(--text-xs);
+}
+
+.doubt-form__submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, var(--jyc-gold) 0%, var(--jyc-gold-muted) 100%);
+  color: var(--jyc-black);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-wide);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  box-shadow: 0 4px 16px var(--color-accent-glow);
+}
+
+.doubt-form__submit-btn:hover:not(:disabled) {
+  background: var(--jyc-gold-light);
+  box-shadow: 0 6px 24px rgba(238, 215, 154, 0.4);
+  transform: translateY(-2px);
+}
+
+.doubt-form__submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

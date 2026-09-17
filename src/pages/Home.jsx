@@ -1,19 +1,23 @@
-import { Suspense, lazy, useEffect, useRef } from 'react'
+import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { site } from '../data/site'
 import { lectures } from '../data/lectures'
 import { team } from '../data/team'
-import { socialLinks } from '../data/social'
 import LectureCard from '../components/ui/LectureCard'
 import TeamCard from '../components/ui/TeamCard'
 import Button from '../components/ui/Button'
 import SectionHeader from '../components/ui/SectionHeader'
-import LoadingScreen from '../components/ui/LoadingScreen'
 import { heroEntrance, revealOnScroll, killScrollTriggers } from '../animations/gsap.config'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import { WhoWeAreSection } from '../components/sections/WhoWeAreSection'
+import { WhyUsSection } from '../components/sections/WhyUsSection'
+import { EventsSection } from '../components/sections/EventsSection'
+import { HiringSection } from '../components/sections/HiringSection'
+import { fetchDoubts } from '../services/doubtService'
+import { DoubtCard } from '../components/ui/DoubtCard'
 import './Home.css'
 
-// Lazy-load heavy 3D canvas — Three.js only loads for Home page
+// Lazy-load heavy 3D canvas — Three.js persistent across Home page
 const HeroCanvas = lazy(() => import('../three/HeroCanvas'))
 
 const featuredLectures = lectures.filter((l) => l.featured).slice(0, 3)
@@ -27,10 +31,21 @@ export default function Home() {
   const ctaRef     = useRef()
   const prefersReducedMotion = useReducedMotion()
 
+  const [recentDoubts, setRecentDoubts] = useState([])
+
+  useEffect(() => {
+    async function loadDoubts() {
+      const res = await fetchDoubts({ sortBy: 'newest' })
+      if (res?.data) {
+        setRecentDoubts(res.data.slice(0, 3))
+      }
+    }
+    loadDoubts()
+  }, [])
+
   // Hero entrance animation
   useEffect(() => {
     if (prefersReducedMotion) {
-      // Skip animation, jump to final state
       ;[eyebrowRef, titleRef, subtitleRef, ctaRef].forEach((r) => {
         if (r.current) {
           r.current.style.opacity = 1
@@ -54,15 +69,12 @@ export default function Home() {
 
     const triggers = []
 
-    // Stats
     triggers.push(
       revealOnScroll('.home-stat', { stagger: 0.08, start: 'top 85%' })
     )
-    // Activities
     triggers.push(
       revealOnScroll('.home-activity-card', { stagger: 0.12 })
     )
-    // Section headers
     triggers.push(
       revealOnScroll('.section-header', { stagger: 0.05 })
     )
@@ -72,13 +84,13 @@ export default function Home() {
 
   return (
     <div className="page home-page">
+      {/* 3D Eagle background — persistent across full page scroll */}
+      <Suspense fallback={<div className="home-hero__canvas-fallback" aria-hidden="true" />}>
+        <HeroCanvas />
+      </Suspense>
+
       {/* ── HERO ──────────────────────────────────────────────────────── */}
       <section className="home-hero" ref={heroRef} aria-label="Hero">
-        {/* 3D background — lazy loaded */}
-        <Suspense fallback={<div className="home-hero__canvas-fallback" aria-hidden="true" />}>
-          <HeroCanvas />
-        </Suspense>
-
         {/* Text content — always above the 3D */}
         <div className="home-hero__content container">
           <span
@@ -108,13 +120,16 @@ export default function Home() {
           <div
             ref={ctaRef}
             className="home-hero__cta"
-            style={{ opacity: 0 }}
+            style={{ opacity: 0, display: 'flex', flexWrap: 'wrap', gap: '12px' }}
           >
-            <Button href="/lectures" variant="primary" size="lg">
-              Explore Lectures
+            <Button href="/events" variant="primary" size="lg">
+              Explore Events
             </Button>
-            <Button href="/about" variant="ghost" size="lg">
-              About the Club
+            <Button href="/doubts" variant="secondary" size="lg">
+              Ask a Doubt
+            </Button>
+            <Button href="/join" variant="ghost" size="lg">
+              Join / Apply
             </Button>
           </div>
         </div>
@@ -125,44 +140,61 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── STATS ────────────────────────────────────────────────────── */}
-      <section className="home-stats section--sm" aria-label="Club statistics">
+      {/* ── WHAT WE DO SECTION ────────────────────────────────────────── */}
+      <WhoWeAreSection />
+
+      {/* ── EVENTS SECTION ────────────────────────────────────────────── */}
+      <EventsSection />
+
+      {/* ── WHY US SECTION ────────────────────────────────────────────── */}
+      <WhyUsSection />
+
+      {/* ── STUDENT DOUBTS & Q&A PREVIEW ──────────────────────────────── */}
+      <section className="section home-doubts" style={{ padding: 'clamp(36px, 5vw, 56px) 0', position: 'relative', zIndex: 5 }}>
         <div className="container">
-          <div className="home-stats__grid">
-            {site.stats.map((stat) => (
-              <div key={stat.label} className="home-stat reveal">
-                <span className="home-stat__value">{stat.value}</span>
-                <span className="home-stat__label">{stat.label}</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '20px', marginBottom: '40px' }}>
+            <div>
+              <div style={{ textTransform: 'uppercase', color: 'var(--color-accent)', fontSize: 'var(--text-xs)', fontWeight: '600', letterSpacing: 'var(--tracking-widest)', marginBottom: '8px' }}>
+                ✦ COMMUNITY DISCUSSIONS ✦
               </div>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-3xl)', color: 'var(--color-text)', margin: 0 }}>
+                Recent Student Doubts & Answers
+              </h2>
+            </div>
+
+            <Link
+              to="/doubts"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: 'var(--color-accent)',
+                fontFamily: 'var(--font-display)',
+                fontSize: 'var(--text-sm)',
+                fontWeight: 'var(--weight-semibold)',
+                textDecoration: 'none'
+              }}
+            >
+              Ask or Answer a Doubt
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </Link>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
+            {recentDoubts.map(doubt => (
+              <DoubtCard key={doubt.id} doubt={doubt} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── WHAT WE DO ───────────────────────────────────────────────── */}
-      <section className="section home-activities" aria-label="What we do">
-        <div className="container">
-          <SectionHeader
-            eyebrow="What We Do"
-            title="Engineering runs deeper here."
-            subtitle="We don't just talk about technology. We build, experiment, teach, and ship."
-          />
-          <div className="home-activities__grid">
-            {site.activities.map((activity) => (
-              <div key={activity.title} className="home-activity-card">
-                <div className="home-activity-card__icon" aria-hidden="true">
-                  {activity.icon}
-                </div>
-                <h3 className="home-activity-card__title">{activity.title}</h3>
-                <p className="home-activity-card__desc">{activity.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ── RECRUITMENT SECTION ───────────────────────────────────────── */}
+      <HiringSection />
 
       {/* ── FEATURED LECTURES ────────────────────────────────────────── */}
-      <section className="section home-lectures" aria-label="Featured lectures">
+      <section className="section home-lectures" aria-label="Featured lectures" style={{ padding: 'clamp(36px, 5vw, 56px) 0', position: 'relative', zIndex: 5 }}>
         <div className="container">
           <div className="home-lectures__header">
             <SectionHeader
@@ -185,7 +217,7 @@ export default function Home() {
       </section>
 
       {/* ── TEAM PREVIEW ─────────────────────────────────────────────── */}
-      <section className="section home-team" aria-label="Core team preview">
+      <section className="section home-team" aria-label="Core team preview" style={{ padding: 'clamp(36px, 5vw, 56px) 0', position: 'relative', zIndex: 5 }}>
         <div className="container">
           <SectionHeader
             eyebrow="The Team"
@@ -199,41 +231,10 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="home-team__cta">
+          <div style={{ textAlign: 'center', marginTop: 'var(--space-8)' }}>
             <Button href="/team" variant="ghost">
-              Meet Everyone
+              Meet the Full Team
             </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* ── CONNECT CTA ──────────────────────────────────────────────── */}
-      <section className="section home-connect" aria-label="Connect with us">
-        <div className="container">
-          <div className="home-connect__inner reveal">
-            {/* Ambient glow */}
-            <div className="home-connect__glow" aria-hidden="true" />
-
-            <span className="home-connect__eyebrow">Follow the Journey</span>
-            <h2 className="home-connect__title">Stay in the loop.</h2>
-            <p className="home-connect__desc">
-              Lectures, events, project drops, and club news — across every platform.
-            </p>
-
-            <div className="home-connect__links">
-              {socialLinks.map((s) => (
-                <a
-                  key={s.id}
-                  href={s.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="home-connect__social"
-                  aria-label={s.label}
-                >
-                  {s.platform}
-                </a>
-              ))}
-            </div>
           </div>
         </div>
       </section>

@@ -96,22 +96,36 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
     return new THREE.CanvasTexture(canvas)
   }, [])
 
-  // Animation Loop
+  // Animation Loop — Full-Page Scroll Motion
   useFrame((state) => {
     const time = state.clock.getElapsedTime()
 
-    // Parallax mouse rotation
+    // Parallax mouse rotation & scroll factor
     const targetRotX = (mousePosition?.current?.y ?? 0) * 0.35
     const targetRotY = (mousePosition?.current?.x ?? 0) * 0.45
+    const scrollFactor = scrollProgress?.current ?? 0
 
     if (groupRef.current) {
-      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, 0.05)
-      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY + time * 0.12, 0.05)
+      // Rotate 3D eagle smoothly as user scrolls top to bottom
+      groupRef.current.rotation.x = THREE.MathUtils.lerp(
+        groupRef.current.rotation.x,
+        targetRotX + Math.sin(scrollFactor * Math.PI) * 0.2,
+        0.05
+      )
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(
+        groupRef.current.rotation.y,
+        targetRotY + time * 0.12 + scrollFactor * Math.PI * 1.8,
+        0.05
+      )
 
-      // Scroll translation
-      const scrollFactor = scrollProgress?.current ?? 0
-      groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, -scrollFactor * 1.8, 0.05)
-      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, Math.sin(time * 1.5) * 0.15 + scrollFactor * 0.4, 0.05)
+      // Swoop across screen width and depth as page scrolls
+      const targetX = 0.65 - Math.sin(scrollFactor * Math.PI) * 1.2
+      const targetY = Math.sin(time * 1.5) * 0.15 + (0.1 - scrollFactor * 0.5)
+      const targetZ = -0.2 + Math.sin(scrollFactor * Math.PI * 2) * 0.4
+
+      groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.05)
+      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.05)
+      groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetZ, 0.05)
     }
 
     // Animate Eagle Wings Boundary Wave

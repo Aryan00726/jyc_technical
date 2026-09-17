@@ -4,10 +4,13 @@ import { socialLinks } from '../../data/social'
 import './Footer.css'
 
 const navLinks = [
-  { to: '/',         label: 'Home'     },
-  { to: '/lectures', label: 'Lectures' },
-  { to: '/team',     label: 'Team'     },
-  { to: '/about',    label: 'About'    },
+  { to: '/',         label: 'Home'       },
+  { to: '/events',   label: 'Events'     },
+  { to: '/doubts',   label: 'Ask Doubts' },
+  { to: '/join',     label: 'Join Team'  },
+  { to: '/lectures', label: 'Lectures'   },
+  { to: '/team',     label: 'Team'       },
+  { to: '/about',    label: 'About'      },
 ]
 
 // Social icon SVGs
@@ -58,11 +61,13 @@ export default function Footer() {
           <div className="footer__brand">
             <Link to="/" className="footer__logo" aria-label={`${site.name} home`}>
               <span className="footer__logo-mark" aria-hidden="true">
-                <svg width="24" height="24" viewBox="0 0 40 40" fill="none">
-                  <polygon points="20,2 38,11 38,29 20,38 2,29 2,11" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
-                  <polygon points="20,8 32,14 32,26 20,32 8,26 8,14" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.8" />
-                  <circle cx="20" cy="20" r="4" fill="currentColor" />
-                </svg>
+                <img
+                  src="/logo.png"
+                  alt="JYC Logo"
+                  width="28"
+                  height="28"
+                  style={{ borderRadius: '50%', objectFit: 'cover' }}
+                />
               </span>
               <span className="footer__logo-text">{site.name}</span>
             </Link>
@@ -105,12 +110,12 @@ export default function Footer() {
         </div>
 
         <div className="footer__bottom">
-          <p className="footer__copy">
-            © {year} {site.fullName}. All rights reserved.
+          <p className="footer__copyright">
+            © {year} {site.name}. {site.college}. All rights reserved.
           </p>
-          <p className="footer__legal">
-            Built with React + Three.js
-          </p>
+          <div className="footer__legal">
+            <Link to="/preview" className="footer__legal-link">Design System</Link>
+          </div>
         </div>
       </div>
     </footer>

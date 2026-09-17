@@ -3,13 +3,17 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 
-// Lazy-load pages — only Home loads the heavy 3D bundle
-const Home      = lazy(() => import('./pages/Home'))
-const Lectures  = lazy(() => import('./pages/Lectures'))
-const Team      = lazy(() => import('./pages/Team'))
-const About     = lazy(() => import('./pages/About'))
-const Preview   = lazy(() => import('./components/ui/StylePreview'))
-const NotFound  = lazy(() => import('./pages/NotFound'))
+// Lazy-load pages
+const Home         = lazy(() => import('./pages/Home'))
+const Events       = lazy(() => import('./pages/Events'))
+const Doubts       = lazy(() => import('./pages/Doubts'))
+const DoubtDetails = lazy(() => import('./pages/DoubtDetails'))
+const Hiring       = lazy(() => import('./pages/Hiring'))
+const Lectures     = lazy(() => import('./pages/Lectures'))
+const Team         = lazy(() => import('./pages/Team'))
+const About        = lazy(() => import('./pages/About'))
+const Preview      = lazy(() => import('./components/ui/StylePreview'))
+const NotFound     = lazy(() => import('./pages/NotFound'))
 
 // Simple page fallback while a route chunk loads
 function PageFallback() {
@@ -38,7 +42,6 @@ function PageFallback() {
 
 function AppRoutes() {
   const location = useLocation()
-  const isHome = location.pathname === '/'
 
   return (
     <>
@@ -46,12 +49,17 @@ function AppRoutes() {
 
       <Suspense fallback={<PageFallback />}>
         <Routes>
-          <Route path="/"         element={<Home />} />
-          <Route path="/lectures" element={<Lectures />} />
-          <Route path="/team"     element={<Team />} />
-          <Route path="/about"    element={<About />} />
-          <Route path="/preview"  element={<Preview />} />
-          <Route path="*"         element={<NotFound />} />
+          <Route path="/"            element={<Home />} />
+          <Route path="/events"      element={<Events />} />
+          <Route path="/doubts"      element={<Doubts />} />
+          <Route path="/doubts/:id"  element={<DoubtDetails />} />
+          <Route path="/join"        element={<Hiring />} />
+          <Route path="/hiring"      element={<Hiring />} />
+          <Route path="/lectures"    element={<Lectures />} />
+          <Route path="/team"        element={<Team />} />
+          <Route path="/about"       element={<About />} />
+          <Route path="/preview"     element={<Preview />} />
+          <Route path="*"            element={<NotFound />} />
         </Routes>
       </Suspense>
 

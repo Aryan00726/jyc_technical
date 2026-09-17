@@ -1,10 +1,14 @@
 .team-page {
-  padding-top: calc(var(--nav-height) + var(--space-12));
+  padding-top: calc(var(--nav-height) + 16px);
   padding-bottom: var(--section-py);
 }
 
 .team-page__header {
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-4);
+}
+
+.team-page__header .section-header {
+  margin-bottom: 0;
 }
 
 /* ── PRIVACY NOTICE ─────────────────────────────────────────────────────── */

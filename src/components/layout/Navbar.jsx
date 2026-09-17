@@ -5,11 +5,13 @@ import { socialLinks } from '../../data/social'
 import './Navbar.css'
 
 const navLinks = [
-  { to: '/',         label: 'Home'     },
-  { to: '/lectures', label: 'Lectures' },
-  { to: '/team',     label: 'Team'     },
-  { to: '/about',    label: 'About'    },
-  { to: '/preview',  label: 'Design System' },
+  { to: '/',         label: 'Home'       },
+  { to: '/events',   label: 'Events'     },
+  { to: '/doubts',   label: 'Ask Doubts' },
+  { to: '/join',     label: 'Join Team'  },
+  { to: '/lectures', label: 'Lectures'   },
+  { to: '/team',     label: 'Team'       },
+  { to: '/about',    label: 'About'      }
 ]
 
 export default function Navbar() {
@@ -119,38 +121,41 @@ export default function Navbar() {
             aria-controls="mobile-menu"
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           >
-            <span className="navbar__hamburger-bar" />
-            <span className="navbar__hamburger-bar" />
-            <span className="navbar__hamburger-bar" />
+            <span />
+            <span />
+            <span />
           </button>
         </div>
       </header>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Menu Backdrop & Sheet */}
       <div
         id="mobile-menu"
         ref={menuRef}
         className={`mobile-menu ${menuOpen ? 'mobile-menu--open' : ''}`}
         aria-hidden={!menuOpen}
       >
-        <nav aria-label="Mobile navigation">
-          <ul className="mobile-menu__links" role="list">
-            {navLinks.map(({ to, label }) => (
-              <li key={to}>
-                <NavLink
-                  to={to}
-                  end={to === '/'}
-                  className={({ isActive }) =>
-                    `mobile-menu__link ${isActive ? 'mobile-menu__link--active' : ''}`
-                  }
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <div className="mobile-menu__backdrop" onClick={() => setMenuOpen(false)} />
+        <div className="mobile-menu__sheet">
+          <nav aria-label="Mobile navigation">
+            <ul className="mobile-menu__links" role="list">
+              {navLinks.map(({ to, label }) => (
+                <li key={to}>
+                  <NavLink
+                    to={to}
+                    end={to === '/'}
+                    className={({ isActive }) =>
+                      `mobile-menu__link ${isActive ? 'mobile-menu__link--active' : ''}`
+                    }
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {label}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       </div>
     </>
   )

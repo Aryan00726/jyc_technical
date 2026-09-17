@@ -77,7 +77,21 @@
   box-shadow: 0 0 28px var(--color-accent-glow);
 }
 
-/* Ghost / Secondary Button */
+/* Secondary / Bordered Button */
+.btn--secondary {
+  background: rgba(238, 215, 154, 0.05);
+  color: var(--jyc-cream);
+  border: 1px solid var(--color-border-bright);
+}
+
+.btn--secondary:hover {
+  border-color: var(--jyc-gold);
+  color: var(--jyc-gold);
+  background: rgba(238, 215, 154, 0.12);
+  box-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+/* Ghost Button */
 .btn--ghost {
   background: transparent;
   color: var(--color-text);
