@@ -24,10 +24,11 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
     const origPos = new Float32Array(count * 3)
     const cols = new Float32Array(count * 3)
 
-    const colorGold    = new THREE.Color('#FFE8A3')
+    const colorGold    = new THREE.Color('#FFD700')
     const colorBright  = new THREE.Color('#FFFFFF')
     const colorCrimson = new THREE.Color('#EF4444')
     const colorAmber   = new THREE.Color('#F59E0B')
+    const colorBeak    = new THREE.Color('#FFA500')
     const tempCol      = new THREE.Color()
 
     for (let i = 0; i < count; i++) {
@@ -41,14 +42,24 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
       origPos[i * 3 + 2] = z
 
       const dist = Math.abs(x)
-      const isHead = y > 0.65
+      const isHead = y > 0.60
 
       if (isHead) {
-        // Eagle Crown & Eye radiate in brilliant gold and glowing white
-        if (Math.hypot(x - 0.06, y - 0.83) < 0.04) {
-          tempCol.copy(colorBright) // Eye focal point
-        } else {
-          const headLerp = Math.min(1, (y - 0.65) / 0.28)
+        // 1. Hooked Beak Color (Gold / Orange)
+        if (x > 0.10 && y >= 0.70 && y <= 0.88) {
+          tempCol.copy(colorBeak).lerp(colorGold, 0.6)
+        }
+        // 2. Fierce Eye Socket (Piercing White / Bright Gold)
+        else if (Math.hypot(x - 0.04, y - 0.81) < 0.035) {
+          tempCol.copy(colorBright)
+        }
+        // 3. Brow Ridge (Heavy Shadow Accent)
+        else if (x >= -0.02 && x <= 0.10 && y >= 0.83 && y <= 0.86) {
+          tempCol.copy(colorGold).lerp(colorBright, 0.4)
+        }
+        // 4. Feathered Crown & Crest
+        else {
+          const headLerp = Math.min(1, (y - 0.60) / 0.32)
           tempCol.copy(colorAmber).lerp(colorGold, headLerp)
         }
       } else if (dist < 0.5) {
@@ -68,7 +79,7 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
     
     // Spatial grid for clean, gap-free line generation
     const grid = new Map()
-    const cellSize = 0.22
+    const cellSize = 0.18
 
     for (let i = 0; i < count; i++) {
       const [x, y, z] = eagle[i]
@@ -77,7 +88,7 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
       grid.get(key).push({ p: eagle[i], idx: i })
     }
 
-    const step = 4
+    const step = 3
     for (let i = 0; i < count; i += step) {
       const [x1, y1, z1] = eagle[i]
       const gx = Math.floor(x1 / cellSize)
@@ -95,19 +106,16 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
             for (const { p: [x2, y2, z2], idx: j } of cell) {
               if (j <= i) continue
 
-              const isHead1 = y1 > 0.65
-              const isHead2 = y2 > 0.65
+              const isHead1 = y1 > 0.60
+              const isHead2 = y2 > 0.60
 
-              let maxD = 0.22
+              let maxD = 0.20
               if (isHead1 || isHead2) {
-                maxD = 0.16
-                // Prevent cross-head gap lines
-                if (x1 < -0.04 && x2 > 0.05 && y1 < 0.85) continue
-                if (x2 < -0.04 && x1 > 0.05 && y2 < 0.85) continue
+                maxD = 0.12 // Tight spatial threshold for crisp eagle head contours
               }
 
               const dist = Math.hypot(x2 - x1, y2 - y1, z2 - z1)
-              if (dist > 0.035 && dist < maxD) {
+              if (dist > 0.025 && dist < maxD) {
                 linePositions.push(x1, y1, z1, x2, y2, z2)
                 connections++
                 if (connections >= maxLinesPerPoint) break
