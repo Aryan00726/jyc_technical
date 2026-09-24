@@ -24,9 +24,9 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
     const origPos = new Float32Array(count * 3)
     const cols = new Float32Array(count * 3)
 
-    const colorGold    = new THREE.Color('#EED79A')
-    const colorCrimson = new THREE.Color('#EF4444')
-    const colorAmber   = new THREE.Color('#F59E0B')
+    const colorGold    = new THREE.Color('#FF8C00')
+    const colorCrimson = new THREE.Color('#FF1A24')
+    const colorAmber   = new THREE.Color('#FF4500')
     const tempCol      = new THREE.Color()
 
     for (let i = 0; i < count; i++) {
@@ -41,9 +41,9 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
 
       const dist = Math.abs(x)
 
-      // Unified Organic Fire Particle Color Palette
+      // Brighter Electric Red & Fiery Crimson Palette
       if (dist < 0.5) {
-        tempCol.copy(colorCrimson).lerp(colorGold, 0.4)
+        tempCol.copy(colorCrimson).lerp(colorGold, 0.35)
       } else {
         tempCol.copy(colorAmber).lerp(colorCrimson, (dist - 0.5) / 2.0)
       }
@@ -53,11 +53,11 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
       cols[i * 3 + 2] = tempCol.b
     }
 
-    // Connect nearby boundary points with spatial proximity check
+    // Connect nearby boundary points with minimal, ultra-clean laser wireframe lines
     const linePositions = []
-    const maxLinesPerPoint = 3
+    const maxLinesPerPoint = 1
     
-    // Spatial grid for clean, organic constellation line generation
+    // Spatial grid for minimalist constellation line generation
     const grid = new Map()
     const cellSize = 0.20
 
@@ -68,7 +68,7 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
       grid.get(key).push({ p: eagle[i], idx: i })
     }
 
-    const step = 3
+    const step = 7
     for (let i = 0; i < count; i += step) {
       const [x1, y1, z1] = eagle[i]
       const gx = Math.floor(x1 / cellSize)
@@ -87,7 +87,7 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
               if (j <= i) continue
 
               const dist = Math.hypot(x2 - x1, y2 - y1, z2 - z1)
-              if (dist > 0.03 && dist < 0.24) {
+              if (dist > 0.04 && dist < 0.16) {
                 linePositions.push(x1, y1, z1, x2, y2, z2)
                 connections++
                 if (connections >= maxLinesPerPoint) break
@@ -109,7 +109,7 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
     }
   }, [eagle])
 
-  // Particle Glow Texture
+  // Particle Glow Texture - Vibrant Bright Red
   const particleTexture = useMemo(() => {
     const canvas = document.createElement('canvas')
     canvas.width = 64
@@ -117,8 +117,8 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
     const ctx = canvas.getContext('2d')
     const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32)
     grad.addColorStop(0, 'rgba(255, 255, 255, 1)')
-    grad.addColorStop(0.35, 'rgba(245, 158, 11, 0.9)')
-    grad.addColorStop(0.7, 'rgba(239, 68, 68, 0.45)')
+    grad.addColorStop(0.35, 'rgba(255, 40, 40, 0.95)')
+    grad.addColorStop(0.7, 'rgba(220, 20, 20, 0.5)')
     grad.addColorStop(1, 'rgba(0, 0, 0, 0)')
     ctx.fillStyle = grad
     ctx.fillRect(0, 0, 64, 64)
@@ -195,17 +195,17 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.085}
+          size={0.088}
           vertexColors={true}
           map={particleTexture}
           transparent={true}
-          opacity={0.95}
+          opacity={0.98}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
         />
       </points>
 
-      {/* 2. Eagle Boundary Laser Wireframe Lines */}
+      {/* 2. Eagle Boundary Laser Wireframe Lines - Minimalist Subtle Laser */}
       <lineSegments ref={eagleLinesRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -214,9 +214,9 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
           />
         </bufferGeometry>
         <lineBasicMaterial
-          color="#EF4444"
+          color="#FF2222"
           transparent={true}
-          opacity={0.45}
+          opacity={0.18}
           blending={THREE.AdditiveBlending}
         />
       </lineSegments>
