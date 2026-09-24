@@ -24,7 +24,8 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
     const origPos = new Float32Array(count * 3)
     const cols = new Float32Array(count * 3)
 
-    const colorGold    = new THREE.Color('#EED79A')
+    const colorGold    = new THREE.Color('#FFE8A3')
+    const colorBright  = new THREE.Color('#FFFFFF')
     const colorCrimson = new THREE.Color('#EF4444')
     const colorAmber   = new THREE.Color('#F59E0B')
     const tempCol      = new THREE.Color()
@@ -40,7 +41,17 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
       origPos[i * 3 + 2] = z
 
       const dist = Math.abs(x)
-      if (dist < 0.5) {
+      const isHead = y > 0.65
+
+      if (isHead) {
+        // Eagle Crown & Eye radiate in brilliant gold and glowing white
+        if (Math.hypot(x - 0.06, y - 0.83) < 0.04) {
+          tempCol.copy(colorBright) // Eye focal point
+        } else {
+          const headLerp = Math.min(1, (y - 0.65) / 0.28)
+          tempCol.copy(colorAmber).lerp(colorGold, headLerp)
+        }
+      } else if (dist < 0.5) {
         tempCol.copy(colorCrimson).lerp(colorGold, 0.4)
       } else {
         tempCol.copy(colorAmber).lerp(colorCrimson, (dist - 0.5) / 2.0)
@@ -51,22 +62,60 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
       cols[i * 3 + 2] = tempCol.b
     }
 
-    // Connect nearby boundary points with crisp laser lines
+    // Connect nearby boundary points with spatial proximity check
     const linePositions = []
-    const step = 5
+    const maxLinesPerPoint = 3
+    
+    // Spatial grid for clean, gap-free line generation
+    const grid = new Map()
+    const cellSize = 0.22
+
+    for (let i = 0; i < count; i++) {
+      const [x, y, z] = eagle[i]
+      const key = `${Math.floor(x / cellSize)},${Math.floor(y / cellSize)},${Math.floor(z / cellSize)}`
+      if (!grid.has(key)) grid.set(key, [])
+      grid.get(key).push({ p: eagle[i], idx: i })
+    }
+
+    const step = 4
     for (let i = 0; i < count; i += step) {
-      const x1 = eagle[i][0]
-      const y1 = eagle[i][1]
-      const z1 = eagle[i][2]
+      const [x1, y1, z1] = eagle[i]
+      const gx = Math.floor(x1 / cellSize)
+      const gy = Math.floor(y1 / cellSize)
+      const gz = Math.floor(z1 / cellSize)
 
-      for (let j = i + step; j < Math.min(i + step * 3, count); j += step) {
-        const x2 = eagle[j][0]
-        const y2 = eagle[j][1]
-        const z2 = eagle[j][2]
-        const dist = Math.hypot(x2 - x1, y2 - y1, z2 - z1)
+      let connections = 0
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+          for (let dz = -1; dz <= 1; dz++) {
+            const neighborKey = `${gx + dx},${gy + dy},${gz + dz}`
+            const cell = grid.get(neighborKey)
+            if (!cell) continue
 
-        if (dist < 0.38) {
-          linePositions.push(x1, y1, z1, x2, y2, z2)
+            for (const { p: [x2, y2, z2], idx: j } of cell) {
+              if (j <= i) continue
+
+              const isHead1 = y1 > 0.65
+              const isHead2 = y2 > 0.65
+
+              let maxD = 0.22
+              if (isHead1 || isHead2) {
+                maxD = 0.16
+                // Prevent cross-head gap lines
+                if (x1 < -0.04 && x2 > 0.05 && y1 < 0.85) continue
+                if (x2 < -0.04 && x1 > 0.05 && y2 < 0.85) continue
+              }
+
+              const dist = Math.hypot(x2 - x1, y2 - y1, z2 - z1)
+              if (dist > 0.035 && dist < maxD) {
+                linePositions.push(x1, y1, z1, x2, y2, z2)
+                connections++
+                if (connections >= maxLinesPerPoint) break
+              }
+            }
+            if (connections >= maxLinesPerPoint) break
+          }
+          if (connections >= maxLinesPerPoint) break
         }
       }
     }
