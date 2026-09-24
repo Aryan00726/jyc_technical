@@ -24,11 +24,9 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
     const origPos = new Float32Array(count * 3)
     const cols = new Float32Array(count * 3)
 
-    const colorGold    = new THREE.Color('#FFD700')
-    const colorBright  = new THREE.Color('#FFFFFF')
+    const colorGold    = new THREE.Color('#EED79A')
     const colorCrimson = new THREE.Color('#EF4444')
     const colorAmber   = new THREE.Color('#F59E0B')
-    const colorBeak    = new THREE.Color('#FFA500')
     const tempCol      = new THREE.Color()
 
     for (let i = 0; i < count; i++) {
@@ -42,27 +40,9 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
       origPos[i * 3 + 2] = z
 
       const dist = Math.abs(x)
-      const isHead = y > 0.60
 
-      if (isHead) {
-        // 1. Hooked Beak Color (Gold / Orange)
-        if (x > 0.10 && y >= 0.70 && y <= 0.88) {
-          tempCol.copy(colorBeak).lerp(colorGold, 0.6)
-        }
-        // 2. Fierce Eye Socket (Piercing White / Bright Gold)
-        else if (Math.hypot(x - 0.04, y - 0.81) < 0.035) {
-          tempCol.copy(colorBright)
-        }
-        // 3. Brow Ridge (Heavy Shadow Accent)
-        else if (x >= -0.02 && x <= 0.10 && y >= 0.83 && y <= 0.86) {
-          tempCol.copy(colorGold).lerp(colorBright, 0.4)
-        }
-        // 4. Feathered Crown & Crest
-        else {
-          const headLerp = Math.min(1, (y - 0.60) / 0.32)
-          tempCol.copy(colorAmber).lerp(colorGold, headLerp)
-        }
-      } else if (dist < 0.5) {
+      // Unified Fire Particle Color Palette (matching body perfectly)
+      if (dist < 0.5) {
         tempCol.copy(colorCrimson).lerp(colorGold, 0.4)
       } else {
         tempCol.copy(colorAmber).lerp(colorCrimson, (dist - 0.5) / 2.0)
@@ -73,57 +53,22 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
       cols[i * 3 + 2] = tempCol.b
     }
 
-    // Connect nearby boundary points with spatial proximity check
+    // Connect nearby boundary points with crisp laser wireframe lines
     const linePositions = []
-    const maxLinesPerPoint = 3
-    
-    // Spatial grid for clean, gap-free line generation
-    const grid = new Map()
-    const cellSize = 0.18
-
-    for (let i = 0; i < count; i++) {
-      const [x, y, z] = eagle[i]
-      const key = `${Math.floor(x / cellSize)},${Math.floor(y / cellSize)},${Math.floor(z / cellSize)}`
-      if (!grid.has(key)) grid.set(key, [])
-      grid.get(key).push({ p: eagle[i], idx: i })
-    }
-
-    const step = 3
+    const step = 5
     for (let i = 0; i < count; i += step) {
-      const [x1, y1, z1] = eagle[i]
-      const gx = Math.floor(x1 / cellSize)
-      const gy = Math.floor(y1 / cellSize)
-      const gz = Math.floor(z1 / cellSize)
+      const x1 = eagle[i][0]
+      const y1 = eagle[i][1]
+      const z1 = eagle[i][2]
 
-      let connections = 0
-      for (let dx = -1; dx <= 1; dx++) {
-        for (let dy = -1; dy <= 1; dy++) {
-          for (let dz = -1; dz <= 1; dz++) {
-            const neighborKey = `${gx + dx},${gy + dy},${gz + dz}`
-            const cell = grid.get(neighborKey)
-            if (!cell) continue
+      for (let j = i + step; j < Math.min(i + step * 3, count); j += step) {
+        const x2 = eagle[j][0]
+        const y2 = eagle[j][1]
+        const z2 = eagle[j][2]
+        const dist = Math.hypot(x2 - x1, y2 - y1, z2 - z1)
 
-            for (const { p: [x2, y2, z2], idx: j } of cell) {
-              if (j <= i) continue
-
-              const isHead1 = y1 > 0.60
-              const isHead2 = y2 > 0.60
-
-              let maxD = 0.20
-              if (isHead1 || isHead2) {
-                maxD = 0.12 // Tight spatial threshold for crisp eagle head contours
-              }
-
-              const dist = Math.hypot(x2 - x1, y2 - y1, z2 - z1)
-              if (dist > 0.025 && dist < maxD) {
-                linePositions.push(x1, y1, z1, x2, y2, z2)
-                connections++
-                if (connections >= maxLinesPerPoint) break
-              }
-            }
-            if (connections >= maxLinesPerPoint) break
-          }
-          if (connections >= maxLinesPerPoint) break
+        if (dist < 0.35) {
+          linePositions.push(x1, y1, z1, x2, y2, z2)
         }
       }
     }
