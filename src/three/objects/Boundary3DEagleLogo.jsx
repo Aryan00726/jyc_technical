@@ -68,7 +68,7 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
       grid.get(key).push({ p: eagle[i], idx: i })
     }
 
-    const step = 4
+    const step = 3
     for (let i = 0; i < count; i += step) {
       const [x1, y1, z1] = eagle[i]
       const gx = Math.floor(x1 / cellSize)
@@ -87,7 +87,7 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
               if (j <= i) continue
 
               const dist = Math.hypot(x2 - x1, y2 - y1, z2 - z1)
-              if (dist > 0.04 && dist < 0.22) {
+              if (dist > 0.03 && dist < 0.24) {
                 linePositions.push(x1, y1, z1, x2, y2, z2)
                 connections++
                 if (connections >= maxLinesPerPoint) break
