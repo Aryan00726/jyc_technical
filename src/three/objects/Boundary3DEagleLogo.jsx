@@ -147,12 +147,12 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
         0.05
       )
 
-      // Swoop across screen width and depth as page scrolls (positioned on right side on desktop)
+      // Keep 3D Eagle animation uniformly on the right side of the text at all scroll positions
       const isDesktop = window.innerWidth >= 992
       const baseRightX = isDesktop ? 1.25 : 0.35
-      const targetX = baseRightX - Math.sin(scrollFactor * Math.PI) * 1.3
-      const targetY = Math.sin(time * 1.5) * 0.15 + (0.05 - scrollFactor * 0.5)
-      const targetZ = -0.2 + Math.sin(scrollFactor * Math.PI * 2) * 0.4
+      const targetX = baseRightX + Math.sin(time * 0.8) * 0.08
+      const targetY = Math.sin(time * 1.2) * 0.12 - (scrollFactor * 0.45)
+      const targetZ = -0.2 + Math.sin(time * 1.0) * 0.1
 
       groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.05)
       groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.05)
