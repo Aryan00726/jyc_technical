@@ -84,14 +84,14 @@ export default function Home() {
 
   return (
     <div className="page home-page">
-      {/* 3D Eagle background — persistent across full page scroll */}
-      <Suspense fallback={<div className="home-hero__canvas-fallback" aria-hidden="true" />}>
-        <HeroCanvas />
-      </Suspense>
-
       {/* ── HERO ──────────────────────────────────────────────────────── */}
       <section className="home-hero" ref={heroRef} aria-label="Hero">
-        {/* Text content — always above the 3D */}
+        {/* 3D Eagle background canvas — positioned on the right half of hero */}
+        <Suspense fallback={<div className="home-hero__canvas-fallback" aria-hidden="true" />}>
+          <HeroCanvas />
+        </Suspense>
+
+        {/* Text content — left aligned */}
         <div className="home-hero__content container">
           <span
             ref={eyebrowRef}

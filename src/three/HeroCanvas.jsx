@@ -61,8 +61,11 @@ export default function HeroCanvas() {
             performance={{ min: 0.5 }}
             gl={{
               antialias: false,
-              alpha: true,
+              alpha: false,
               powerPreference: 'high-performance',
+            }}
+            onCreated={({ gl }) => {
+              gl.setClearColor('#000000', 1.0)
             }}
           >
             <HeroScene

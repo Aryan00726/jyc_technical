@@ -6,9 +6,9 @@ import boundaryData from '../../data/logo_boundaries.json'
 /**
  * Boundary3DEagleLogo Component
  * =============================
- * Renders ONLY the 3D boundary outline of the soaring Eagle.
+ * Renders the 3D boundary outline of the soaring Eagle with Beak.
  * - Glowing Eagle Outline Particles & Animated Wave Lines
- * - Interactive Mouse Parallax & Scroll Elevation
+ * - Interactive Mouse Parallax & Right-Column Hero Position
  */
 export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
   const groupRef = useRef()
@@ -17,16 +17,16 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
 
   const { eagle } = boundaryData
 
-  // Prepare Eagle Boundary Geometry & Colors
+  // Prepare Eagle Boundary Geometry & Vibrant Fire Colors
   const eagleData = useMemo(() => {
     const count = eagle.length
     const pos = new Float32Array(count * 3)
     const origPos = new Float32Array(count * 3)
     const cols = new Float32Array(count * 3)
 
-    const colorGold    = new THREE.Color('#EED79A')
-    const colorCrimson = new THREE.Color('#EF4444')
-    const colorAmber   = new THREE.Color('#F59E0B')
+    const colorGold    = new THREE.Color('#FBBF24') // Bright Yellow-Gold
+    const colorCrimson = new THREE.Color('#EF4444') // Vibrant Red
+    const colorAmber   = new THREE.Color('#F59E0B') // Glowing Amber
     const tempCol      = new THREE.Color()
 
     for (let i = 0; i < count; i++) {
@@ -41,11 +41,16 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
 
       const dist = Math.abs(x)
 
-      // Exact Fire Particle Color Palette (matching reference screenshot)
-      if (dist < 0.5) {
-        tempCol.copy(colorCrimson).lerp(colorGold, 0.4)
+      // Color Palette: Golden beak, bright crimson body, fire amber wings
+      if (y > 0.65) {
+        // Eagle Beak / Crown - Golden accent
+        tempCol.copy(colorGold)
+      } else if (dist < 0.4) {
+        // Eagle Core - Vibrant Red & Gold
+        tempCol.copy(colorCrimson).lerp(colorGold, 0.25)
       } else {
-        tempCol.copy(colorAmber).lerp(colorCrimson, (dist - 0.5) / 2.0)
+        // Eagle Wings - Bright Crimson fading to Flame Amber
+        tempCol.copy(colorCrimson).lerp(colorAmber, (dist - 0.4) / 1.5)
       }
 
       cols[i * 3]     = tempCol.r
@@ -53,19 +58,16 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
       cols[i * 3 + 2] = tempCol.b
     }
 
-    // Connect nearby boundary points with minimal, ultra-clean laser wireframe lines
-    const linePositions = []
-    const maxLinesPerPoint = 1
-    
-    // Spatial grid for minimalist constellation line generation
+    // Connect nearby boundary points into laser wireframe lines
+    const lineIndices = []
     const grid = new Map()
-    const cellSize = 0.20
+    const cellSize = 0.16
 
     for (let i = 0; i < count; i++) {
       const [x, y, z] = eagle[i]
       const key = `${Math.floor(x / cellSize)},${Math.floor(y / cellSize)},${Math.floor(z / cellSize)}`
       if (!grid.has(key)) grid.set(key, [])
-      grid.get(key).push({ p: eagle[i], idx: i })
+      grid.get(key).push({ idx: i, x, y, z })
     }
 
     const step = 6
@@ -75,41 +77,39 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
       const gy = Math.floor(y1 / cellSize)
       const gz = Math.floor(z1 / cellSize)
 
-      let connections = 0
-      for (let dx = -1; dx <= 1; dx++) {
-        for (let dy = -1; dy <= 1; dy++) {
-          for (let dz = -1; dz <= 1; dz++) {
-            const neighborKey = `${gx + dx},${gy + dy},${gz + dz}`
-            const cell = grid.get(neighborKey)
+      let conn = 0
+      for (let dx = -1; dx <= 1 && conn < 1; dx++) {
+        for (let dy = -1; dy <= 1 && conn < 1; dy++) {
+          for (let dz = -1; dz <= 1 && conn < 1; dz++) {
+            const cell = grid.get(`${gx + dx},${gy + dy},${gz + dz}`)
             if (!cell) continue
-
-            for (const { p: [x2, y2, z2], idx: j } of cell) {
-              if (j <= i) continue
-
-              const dist = Math.hypot(x2 - x1, y2 - y1, z2 - z1)
-              if (dist > 0.04 && dist < 0.18) {
-                linePositions.push(x1, y1, z1, x2, y2, z2)
-                connections++
-                if (connections >= maxLinesPerPoint) break
+            for (const pt of cell) {
+              if (pt.idx <= i) continue
+              const d = Math.hypot(pt.x - x1, pt.y - y1, pt.z - z1)
+              if (d > 0.05 && d < 0.15) {
+                lineIndices.push(i, pt.idx)
+                conn++
+                break
               }
             }
-            if (connections >= maxLinesPerPoint) break
           }
-          if (connections >= maxLinesPerPoint) break
         }
       }
     }
+
+    const linePositions = new Float32Array(lineIndices.length * 3)
 
     return {
       positions: pos,
       originalPositions: origPos,
       colors: cols,
-      linePositions: new Float32Array(linePositions),
+      lineIndices,
+      linePositions,
       count,
     }
   }, [eagle])
 
-  // Particle Glow Texture - Authentic Fire Amber Glow
+  // Particle Texture — Pure White Core with Fire Amber Halo
   const particleTexture = useMemo(() => {
     const canvas = document.createElement('canvas')
     canvas.width = 64
@@ -117,52 +117,54 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
     const ctx = canvas.getContext('2d')
     const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32)
     grad.addColorStop(0, 'rgba(255, 255, 255, 1)')
-    grad.addColorStop(0.35, 'rgba(245, 158, 11, 0.9)')
-    grad.addColorStop(0.7, 'rgba(239, 68, 68, 0.45)')
+    grad.addColorStop(0.3, 'rgba(245, 158, 11, 0.95)')
+    grad.addColorStop(0.65, 'rgba(239, 68, 68, 0.5)')
     grad.addColorStop(1, 'rgba(0, 0, 0, 0)')
     ctx.fillStyle = grad
     ctx.fillRect(0, 0, 64, 64)
     return new THREE.CanvasTexture(canvas)
   }, [])
 
-  // Animation Loop — Full-Page Scroll Motion
+  // Animation Loop — Positioned in Right Column of Hero
   useFrame((state) => {
     const time = state.clock.getElapsedTime()
 
-    // Parallax mouse rotation & scroll factor
-    const targetRotX = (mousePosition?.current?.y ?? 0) * 0.35
-    const targetRotY = (mousePosition?.current?.x ?? 0) * 0.45
-    const scrollFactor = scrollProgress?.current ?? 0
+    // Parallax mouse rotation
+    const targetRotX = (mousePosition?.current?.y ?? 0) * 0.30
+    const targetRotY = (mousePosition?.current?.x ?? 0) * 0.40
 
     if (groupRef.current) {
-      // Rotate 3D eagle smoothly as user scrolls top to bottom
+      // Smooth idle rotation & mouse tilt
       groupRef.current.rotation.x = THREE.MathUtils.lerp(
         groupRef.current.rotation.x,
-        targetRotX + Math.sin(scrollFactor * Math.PI) * 0.2,
+        targetRotX + Math.sin(time * 0.5) * 0.04,
         0.05
       )
       groupRef.current.rotation.y = THREE.MathUtils.lerp(
         groupRef.current.rotation.y,
-        targetRotY + time * 0.12 + scrollFactor * Math.PI * 1.8,
+        targetRotY + Math.sin(time * 0.8) * 0.12,
         0.05
       )
 
-      // Keep 3D Eagle animation uniformly on the right side of the text at all scroll positions
+      // Precise Right-Column Anchoring beside left text
       const isDesktop = window.innerWidth >= 992
-      const baseRightX = isDesktop ? 0.60 : 0.0
-      const targetX = baseRightX + Math.sin(time * 0.8) * 0.06
-      const targetY = Math.sin(time * 1.2) * 0.10 - (scrollFactor * 0.40)
-      const targetZ = -0.1 + Math.sin(time * 1.0) * 0.08
+      const baseRightX = isDesktop ? 1.95 : 0.0
+      const baseScale  = isDesktop ? 1.8 : 1.3
+      const basePosY   = isDesktop ? -0.05 : -0.2
+
+      const targetX = baseRightX + Math.sin(time * 0.7) * 0.05
+      const targetY = basePosY + Math.sin(time * 1.1) * 0.08
+      const targetZ = Math.sin(time * 0.9) * 0.06
 
       groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.05)
       groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.05)
       groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetZ, 0.05)
+      groupRef.current.scale.setScalar(baseScale)
     }
 
     // Animate Eagle Wings Boundary Wave
     if (eaglePointsRef.current) {
-      const geom = eaglePointsRef.current.geometry
-      const posAttr = geom.attributes.position
+      const posAttr = eaglePointsRef.current.geometry.attributes.position
       const arr = posAttr.array
 
       for (let i = 0; i < eagleData.count; i++) {
@@ -174,16 +176,37 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
         const wave = Math.sin(time * 2.8 - dist * 1.4) * (dist * 0.12)
         const pulseZ = Math.cos(time * 2.0 + ox * 2) * 0.05
 
+        arr[i * 3]     = ox
         arr[i * 3 + 1] = oy + wave
         arr[i * 3 + 2] = oz + pulseZ
       }
-
       posAttr.needsUpdate = true
+
+      // Dynamically update laser wireframe lines to follow flapping particles
+      if (eagleLinesRef.current && eagleData.lineIndices.length > 0) {
+        const linePosAttr = eagleLinesRef.current.geometry.attributes.position
+        const lineArr = linePosAttr.array
+        const indices = eagleData.lineIndices
+
+        for (let k = 0; k < indices.length; k += 2) {
+          const idxA = indices[k]
+          const idxB = indices[k + 1]
+
+          lineArr[k * 3]     = arr[idxA * 3]
+          lineArr[k * 3 + 1] = arr[idxA * 3 + 1]
+          lineArr[k * 3 + 2] = arr[idxA * 3 + 2]
+
+          lineArr[(k + 1) * 3]     = arr[idxB * 3]
+          lineArr[(k + 1) * 3 + 1] = arr[idxB * 3 + 1]
+          lineArr[(k + 1) * 3 + 2] = arr[idxB * 3 + 2]
+        }
+        linePosAttr.needsUpdate = true
+      }
     }
   })
 
   return (
-    <group ref={groupRef} position={[0.60, -0.05, -0.1]} scale={[1.9, 1.9, 1.9]}>
+    <group ref={groupRef} position={[1.95, -0.05, 0]} scale={[1.8, 1.8, 1.8]}>
       {/* 1. Eagle 3D Boundary Points */}
       <points ref={eaglePointsRef}>
         <bufferGeometry>
@@ -207,7 +230,7 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
         />
       </points>
 
-      {/* 2. Eagle Boundary Laser Wireframe Lines - Minimalist Subtle Laser */}
+      {/* 2. Eagle Boundary Laser Wireframe Lines */}
       <lineSegments ref={eagleLinesRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -218,10 +241,11 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
         <lineBasicMaterial
           color="#EF4444"
           transparent={true}
-          opacity={0.25}
+          opacity={0.30}
           blending={THREE.AdditiveBlending}
         />
       </lineSegments>
     </group>
   )
 }
+
