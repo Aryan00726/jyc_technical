@@ -58,7 +58,7 @@ export default function Navbar() {
             </span>
             <div className="navbar__logo-brand">
               <span className="navbar__logo-text">JYC TECHNICAL</span>
-              <span className="navbar__logo-subtext">READY TO SOAR</span>
+              <span className="navbar__logo-subtext">MAKE AN IMPACT</span>
             </div>
           </Link>
 

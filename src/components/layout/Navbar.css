@@ -33,10 +33,10 @@
 }
 
 .navbar--scrolled {
-  background: rgba(10, 8, 6, 0.88);
+  background: rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-color: rgba(238, 215, 154, 0.16);
+  border-color: rgba(238, 215, 154, 0.12);
 }
 
 .navbar__inner {
@@ -108,22 +108,45 @@
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
   color: var(--color-text-dim);
-  padding: 6px 16px;
-  border-radius: var(--radius-md);
+  padding: 6px 14px;
+  border-radius: 0;
+  background: transparent;
   text-decoration: none;
-  transition: color var(--duration-fast) var(--ease-out),
-              background var(--duration-fast) var(--ease-out);
+  position: relative;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.navbar__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  background: var(--jyc-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--ease-out), background-color var(--duration-fast) var(--ease-out);
 }
 
 .navbar__link:hover {
   color: var(--jyc-gold);
-  background: rgba(238, 215, 154, 0.08);
+  background: transparent;
+}
+
+.navbar__link:hover::after {
+  transform: scaleX(1);
 }
 
 .navbar__link--active {
   color: var(--jyc-gold);
-  background: rgba(127, 30, 29, 0.25);
-  border: 1px solid rgba(238, 215, 154, 0.20);
+  background: transparent;
+  border: none;
+}
+
+.navbar__link--active::after {
+  transform: scaleX(1);
+  background: var(--jyc-gold);
 }
 
 /* ── SOCIAL ICONS ──────────────────────────────────────────────────────── */

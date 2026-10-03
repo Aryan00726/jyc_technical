@@ -1,5 +1,4 @@
 import Boundary3DEagleLogo from '../objects/Boundary3DEagleLogo'
-import AmbientParticles from '../objects/AmbientParticles'
 import BloomEffect from '../effects/BloomEffect'
 
 /**
@@ -30,14 +29,11 @@ export default function HeroScene({ mousePosition, scrollProgress, enableBloom }
         color="#FFFFFF"
       />
 
-      {/* Core 3D Eagle & Text Boundary Outline Object */}
+      {/* Core 3D Eagle Outline Object */}
       <Boundary3DEagleLogo
         mousePosition={mousePosition}
         scrollProgress={scrollProgress}
       />
-
-      {/* Atmospheric background particles */}
-      <AmbientParticles scrollProgress={scrollProgress} />
 
       {/* Post-processing — Bloom glow */}
       <BloomEffect enabled={enableBloom} />
