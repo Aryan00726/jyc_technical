@@ -3,7 +3,7 @@ import './Button.css'
 /**
  * Button Primitive
  * ================
- * @param {'primary'|'gold'|'ghost'|'text'} variant
+ * @param {'primary'|'gold'|'secondary'|'ghost'|'text'|'underline'} variant
  * @param {'sm'|'md'|'lg'} size
  * @param {string} href — renders as <a> if provided
  * @param {boolean} external — adds target="_blank" rel attrs

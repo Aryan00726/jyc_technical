@@ -16,9 +16,9 @@
   --jyc-maroon-dark:  #4A0F0E;
 
   /* ── SUPPORTING SURFACES & NEUTRALS ────────────────────────────────────── */
-  --jyc-black:        #0A0806;   /* Deepest background                        */
-  --jyc-dark:         #12100D;   /* Elevated surface (cards, headers)         */
-  --jyc-dark-2:       #1B1814;   /* High-elevation surface                    */
+  --jyc-black:        #000000;   /* Plain black background                    */
+  --jyc-dark:         #050505;   /* Elevated surface                          */
+  --jyc-dark-2:       #0A0A0A;   /* High-elevation surface                    */
   --jyc-cream:        #F6EBC7;   /* Primary readable text                     */
   --jyc-cream-dim:    #D8CBAB;   /* Secondary body text                       */
   --jyc-muted:        #8D8475;   /* Captions & subtle labels                  */

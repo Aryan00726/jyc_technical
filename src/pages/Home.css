@@ -1,5 +1,5 @@
 .home-page {
-  background: transparent;
+  background: #000000;
 }
 
 .home-hero {
@@ -9,14 +9,14 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: transparent;
+  background: #000000;
 }
 
 /* 3D canvas fallback */
 .home-hero__canvas-fallback {
   position: absolute;
   inset: 0;
-  background: transparent;
+  background: #000000;
 }
 
 .home-hero__content {
@@ -25,7 +25,9 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
-  max-width: 800px;
+  max-width: 580px;
+  margin-left: 0;
+  margin-right: auto;
 }
 
 .home-hero__eyebrow {
@@ -40,27 +42,28 @@
 
 .home-hero__title {
   font-family: var(--font-display);
-  font-size: var(--text-hero);
+  font-size: clamp(2.8rem, 5.5vw, 4.5rem);
   font-weight: var(--weight-black);
-  color: var(--color-text);
-  line-height: var(--leading-tight);
+  color: #FFFFFF;
+  line-height: 1.1;
   letter-spacing: var(--tracking-tight);
-  max-width: 14ch;
+  max-width: 15ch;
 }
 
 .home-hero__subtitle {
   font-size: var(--text-lg);
   color: var(--color-text-dim);
   line-height: var(--leading-normal);
-  max-width: 540px;
+  max-width: 500px;
   margin: 0;
 }
 
 .home-hero__cta {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: 28px;
   flex-wrap: wrap;
+  margin-top: var(--space-2);
 }
 
 /* Scroll indicator */

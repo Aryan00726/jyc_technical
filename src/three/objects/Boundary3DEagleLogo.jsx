@@ -147,9 +147,11 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
         0.05
       )
 
-      // Swoop across screen width and depth as page scrolls
-      const targetX = 0.65 - Math.sin(scrollFactor * Math.PI) * 1.2
-      const targetY = Math.sin(time * 1.5) * 0.15 + (0.1 - scrollFactor * 0.5)
+      // Swoop across screen width and depth as page scrolls (positioned on right side on desktop)
+      const isDesktop = window.innerWidth >= 992
+      const baseRightX = isDesktop ? 1.25 : 0.35
+      const targetX = baseRightX - Math.sin(scrollFactor * Math.PI) * 1.3
+      const targetY = Math.sin(time * 1.5) * 0.15 + (0.05 - scrollFactor * 0.5)
       const targetZ = -0.2 + Math.sin(scrollFactor * Math.PI * 2) * 0.4
 
       groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.05)
@@ -181,7 +183,7 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
   })
 
   return (
-    <group ref={groupRef} position={[0.7, -0.1, -0.2]} scale={[2.15, 2.15, 2.15]}>
+    <group ref={groupRef} position={[1.25, -0.1, -0.2]} scale={[2.15, 2.15, 2.15]}>
       {/* 1. Eagle 3D Boundary Points */}
       <points ref={eaglePointsRef}>
         <bufferGeometry>

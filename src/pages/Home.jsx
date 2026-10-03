@@ -106,7 +106,7 @@ export default function Home() {
             className="home-hero__title"
             style={{ opacity: 0 }}
           >
-            {site.tagline}
+            Ready to make an impact
           </h1>
 
           <p
@@ -120,16 +120,16 @@ export default function Home() {
           <div
             ref={ctaRef}
             className="home-hero__cta"
-            style={{ opacity: 0, display: 'flex', flexWrap: 'wrap', gap: '12px' }}
+            style={{ opacity: 0, display: 'flex', flexWrap: 'wrap', gap: '28px' }}
           >
-            <Button href="/events" variant="primary" size="lg">
-              Explore Events
+            <Button href="/events" variant="underline" size="lg">
+              Explore Events →
             </Button>
-            <Button href="/doubts" variant="secondary" size="lg">
-              Ask a Doubt
+            <Button href="/doubts" variant="underline" size="lg">
+              Ask a Doubt →
             </Button>
-            <Button href="/join" variant="ghost" size="lg">
-              Join / Apply
+            <Button href="/join" variant="underline" size="lg">
+              Join / Apply →
             </Button>
           </div>
         </div>

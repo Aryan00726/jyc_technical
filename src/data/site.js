@@ -9,7 +9,7 @@ export const site = {
   // Club identity
   name: 'JYC Technical',
   fullName: 'Jaypee Youth Club — Technical Wing',
-  tagline: 'READY TO SOAR',
+  tagline: 'Ready to make an impact',
   description:
     'A student-led technical community built around curiosity, hands-on learning, workshops, and the people who pursue engineering together.',
 
