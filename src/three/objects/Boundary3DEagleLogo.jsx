@@ -149,10 +149,10 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
 
       // Keep 3D Eagle animation uniformly on the right side of the text at all scroll positions
       const isDesktop = window.innerWidth >= 992
-      const baseRightX = isDesktop ? 1.25 : 0.35
-      const targetX = baseRightX + Math.sin(time * 0.8) * 0.08
-      const targetY = Math.sin(time * 1.2) * 0.12 - (scrollFactor * 0.45)
-      const targetZ = -0.2 + Math.sin(time * 1.0) * 0.1
+      const baseRightX = isDesktop ? 0.60 : 0.0
+      const targetX = baseRightX + Math.sin(time * 0.8) * 0.06
+      const targetY = Math.sin(time * 1.2) * 0.10 - (scrollFactor * 0.40)
+      const targetZ = -0.1 + Math.sin(time * 1.0) * 0.08
 
       groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.05)
       groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.05)
@@ -183,7 +183,7 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
   })
 
   return (
-    <group ref={groupRef} position={[1.25, -0.1, -0.2]} scale={[2.15, 2.15, 2.15]}>
+    <group ref={groupRef} position={[0.60, -0.05, -0.1]} scale={[1.9, 1.9, 1.9]}>
       {/* 1. Eagle 3D Boundary Points */}
       <points ref={eaglePointsRef}>
         <bufferGeometry>
