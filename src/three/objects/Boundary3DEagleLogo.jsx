@@ -6,9 +6,9 @@ import boundaryData from '../../data/logo_boundaries.json'
 /**
  * Boundary3DEagleLogo Component
  * =============================
- * Renders the 3D boundary outline of the soaring Eagle with Beak.
+ * Renders the 3D boundary outline of the soaring Eagle.
  * - Glowing Eagle Outline Particles & Animated Wave Lines
- * - Interactive Mouse Parallax & Right-Column Hero Position
+ * - Interactive Mouse Parallax & Uniform Right-Side Position Across Scroll
  */
 export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
   const groupRef = useRef()
@@ -17,16 +17,16 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
 
   const { eagle } = boundaryData
 
-  // Prepare Eagle Boundary Geometry & Vibrant Fire Colors
+  // Prepare Eagle Boundary Geometry & Original Fire Colors
   const eagleData = useMemo(() => {
     const count = eagle.length
     const pos = new Float32Array(count * 3)
     const origPos = new Float32Array(count * 3)
     const cols = new Float32Array(count * 3)
 
-    const colorGold    = new THREE.Color('#FBBF24') // Bright Yellow-Gold
-    const colorCrimson = new THREE.Color('#EF4444') // Vibrant Red
-    const colorAmber   = new THREE.Color('#F59E0B') // Glowing Amber
+    const colorGold    = new THREE.Color('#EED79A')
+    const colorCrimson = new THREE.Color('#EF4444')
+    const colorAmber   = new THREE.Color('#F59E0B')
     const tempCol      = new THREE.Color()
 
     for (let i = 0; i < count; i++) {
@@ -41,16 +41,11 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
 
       const dist = Math.abs(x)
 
-      // Color Palette: Golden beak, bright crimson body, fire amber wings
-      if (y > 0.65) {
-        // Eagle Beak / Crown - Golden accent
-        tempCol.copy(colorGold)
-      } else if (dist < 0.4) {
-        // Eagle Core - Vibrant Red & Gold
-        tempCol.copy(colorCrimson).lerp(colorGold, 0.25)
+      // Exact Original Fire Particle Color Palette
+      if (dist < 0.5) {
+        tempCol.copy(colorCrimson).lerp(colorGold, 0.4)
       } else {
-        // Eagle Wings - Bright Crimson fading to Flame Amber
-        tempCol.copy(colorCrimson).lerp(colorAmber, (dist - 0.4) / 1.5)
+        tempCol.copy(colorAmber).lerp(colorCrimson, (dist - 0.5) / 2.0)
       }
 
       cols[i * 3]     = tempCol.r
@@ -109,7 +104,7 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
     }
   }, [eagle])
 
-  // Particle Texture — Pure White Core with Fire Amber Halo
+  // Particle Glow Texture — Authentic Fire Amber Glow
   const particleTexture = useMemo(() => {
     const canvas = document.createElement('canvas')
     canvas.width = 64
@@ -117,39 +112,43 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
     const ctx = canvas.getContext('2d')
     const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32)
     grad.addColorStop(0, 'rgba(255, 255, 255, 1)')
-    grad.addColorStop(0.3, 'rgba(245, 158, 11, 0.95)')
-    grad.addColorStop(0.65, 'rgba(239, 68, 68, 0.5)')
+    grad.addColorStop(0.35, 'rgba(245, 158, 11, 0.9)')
+    grad.addColorStop(0.7, 'rgba(239, 68, 68, 0.45)')
     grad.addColorStop(1, 'rgba(0, 0, 0, 0)')
     ctx.fillStyle = grad
     ctx.fillRect(0, 0, 64, 64)
     return new THREE.CanvasTexture(canvas)
   }, [])
 
-  // Animation Loop — Positioned in Right Column of Hero
+  // Animation Loop — Persistent Uniform Right-Side Positioning with Controlled Scroll Rotation
   useFrame((state) => {
     const time = state.clock.getElapsedTime()
 
-    // Parallax mouse rotation
+    // Parallax mouse rotation & scroll factor
     const targetRotX = (mousePosition?.current?.y ?? 0) * 0.30
     const targetRotY = (mousePosition?.current?.x ?? 0) * 0.40
+    const scrollFactor = scrollProgress?.current ?? 0
 
     if (groupRef.current) {
-      // Smooth idle rotation & mouse tilt
+      // Gentle, elegant 3D tilt on scroll (keeps eagle facing forward on right side)
+      const scrollRotX = Math.sin(scrollFactor * Math.PI * 0.5) * 0.18
+      const scrollRotY = scrollFactor * 0.35
+
       groupRef.current.rotation.x = THREE.MathUtils.lerp(
         groupRef.current.rotation.x,
-        targetRotX + Math.sin(time * 0.5) * 0.04,
+        targetRotX + scrollRotX + Math.sin(time * 0.5) * 0.04,
         0.05
       )
       groupRef.current.rotation.y = THREE.MathUtils.lerp(
         groupRef.current.rotation.y,
-        targetRotY + Math.sin(time * 0.8) * 0.12,
+        targetRotY + scrollRotY + Math.sin(time * 0.8) * 0.10,
         0.05
       )
 
-      // Precise Right-Column Anchoring beside left text
+      // Lock Eagle to right column beside page text across ALL scroll positions
       const isDesktop = window.innerWidth >= 992
-      const baseRightX = isDesktop ? 1.95 : 0.0
-      const baseScale  = isDesktop ? 1.8 : 1.3
+      const baseRightX = isDesktop ? 2.05 : 0.0
+      const baseScale  = isDesktop ? 1.75 : 1.25
       const basePosY   = isDesktop ? -0.05 : -0.2
 
       const targetX = baseRightX + Math.sin(time * 0.7) * 0.05
@@ -241,7 +240,7 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
         <lineBasicMaterial
           color="#EF4444"
           transparent={true}
-          opacity={0.30}
+          opacity={0.25}
           blending={THREE.AdditiveBlending}
         />
       </lineSegments>
