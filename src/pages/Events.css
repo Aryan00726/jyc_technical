@@ -24,10 +24,11 @@
   gap: var(--space-4);
   margin-bottom: var(--space-8);
   padding: 16px 24px;
-  background: rgba(18, 16, 13, 0.75);
+  background: var(--color-surface-glass);
   backdrop-filter: blur(14px);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
 
 .events-page__tabs {
@@ -38,7 +39,7 @@
 
 .events-page__tab {
   padding: 8px 16px;
-  background: rgba(238, 215, 154, 0.05);
+  background: var(--color-surface-2);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
   color: var(--color-text-dim);
@@ -55,7 +56,7 @@
 }
 
 .events-page__tab--active {
-  background: rgba(238, 215, 154, 0.18);
+  background: var(--color-accent-subtle);
   border-color: var(--color-accent);
   color: var(--color-accent);
   box-shadow: 0 0 12px var(--color-accent-glow);

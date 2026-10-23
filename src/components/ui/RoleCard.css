@@ -1,20 +1,21 @@
 .role-card {
   display: flex;
   flex-direction: column;
-  background: rgba(18, 16, 13, 0.75);
+  background: var(--color-surface-glass);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
   gap: var(--space-4);
+  box-shadow: var(--shadow-sm);
   transition: all var(--duration-base) var(--ease-out);
 }
 
 .role-card:hover {
   transform: translateY(-4px);
   border-color: var(--color-border-bright);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7), 0 0 24px var(--color-accent-glow);
+  box-shadow: var(--shadow-lg), 0 0 24px var(--color-accent-glow);
 }
 
 .role-card__header {

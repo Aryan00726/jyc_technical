@@ -33,10 +33,10 @@
 }
 
 .navbar--scrolled {
-  background: rgba(0, 0, 0, 0.92);
+  background: var(--color-surface-trans);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-color: rgba(238, 215, 154, 0.12);
+  border-color: var(--color-border);
 }
 
 .navbar__inner {
@@ -75,18 +75,20 @@
   font-family: var(--font-display);
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
-  color: var(--jyc-cream);
+  color: var(--color-text);
   letter-spacing: var(--tracking-wide);
   line-height: 1.1;
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 .navbar__logo-subtext {
   font-family: var(--font-display);
   font-size: 0.65rem;
   font-weight: var(--weight-semibold);
-  color: var(--jyc-gold);
+  color: var(--color-accent);
   letter-spacing: var(--tracking-widest);
   text-transform: uppercase;
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 /* ── NAV LINKS ─────────────────────────────────────────────────────────── */
@@ -123,14 +125,14 @@
   left: 14px;
   right: 14px;
   height: 2px;
-  background: var(--jyc-gold);
+  background: var(--color-accent);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--duration-base) var(--ease-out), background-color var(--duration-fast) var(--ease-out);
 }
 
 .navbar__link:hover {
-  color: var(--jyc-gold);
+  color: var(--color-accent);
   background: transparent;
 }
 
@@ -139,17 +141,26 @@
 }
 
 .navbar__link--active {
-  color: var(--jyc-gold);
+  color: var(--color-accent);
   background: transparent;
   border: none;
 }
 
 .navbar__link--active::after {
   transform: scaleX(1);
-  background: var(--jyc-gold);
+  background: var(--color-accent);
 }
 
 /* ── SOCIAL ICONS ──────────────────────────────────────────────────────── */
+
+/* ── ACTIONS & SOCIAL ICONS ────────────────────────────────────────────── */
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: auto;
+}
 
 .navbar__social {
   display: flex;
@@ -168,8 +179,8 @@
 }
 
 .navbar__social-link:hover {
-  color: var(--jyc-gold);
-  background: rgba(238, 215, 154, 0.08);
+  color: var(--color-accent);
+  background: var(--color-accent-subtle);
 }
 
 /* ── HAMBURGER ─────────────────────────────────────────────────────────── */
@@ -192,9 +203,9 @@
 .navbar__hamburger-bar {
   width: 100%;
   height: 2px;
-  background: var(--jyc-gold);
+  background: var(--color-text);
   border-radius: var(--radius-pill);
-  transition: transform var(--duration-base) var(--ease-out), opacity var(--duration-base) var(--ease-out);
+  transition: transform var(--duration-base) var(--ease-out), opacity var(--duration-base) var(--ease-out), background-color var(--duration-fast) var(--ease-out);
 }
 
 .navbar__hamburger--open .navbar__hamburger-bar:nth-child(1) {
@@ -266,7 +277,17 @@
 
 .mobile-menu__link:hover,
 .mobile-menu__link--active {
-  color: var(--jyc-gold);
+  color: var(--color-accent);
+}
+
+.mobile-menu__footer {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 260px;
 }
 
 @media (max-width: 900px) {

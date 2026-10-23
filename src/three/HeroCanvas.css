@@ -5,7 +5,8 @@
   height: 100vh;
   z-index: 0;
   pointer-events: none;
-  background-color: #000000;
+  background-color: var(--color-void);
+  transition: background-color var(--duration-base) var(--ease-out);
 }
 
 .hero-canvas canvas {
@@ -14,14 +15,14 @@
   height: 100% !important;
 }
 
-/* Fallback — pure black background */
+/* Fallback — adapts to theme background */
 .hero-canvas__fallback {
   position: absolute;
   inset: 0;
-  background-color: #000000;
+  background-color: var(--color-void);
+  transition: background-color var(--duration-base) var(--ease-out);
 }
 
 .hero-canvas__fallback--reduced {
-  background-color: #000000;
+  background-color: var(--color-void);
 }
-

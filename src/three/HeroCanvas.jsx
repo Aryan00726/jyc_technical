@@ -4,6 +4,7 @@ import HeroScene from './scenes/HeroScene'
 import { useMousePosition } from '../hooks/useMousePosition'
 import { useScrollProgress } from '../hooks/useScrollProgress'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+import { useTheme } from '../context/ThemeContext'
 import './HeroCanvas.css'
 
 /**
@@ -42,11 +43,12 @@ export default function HeroCanvas() {
   const mousePosition  = useMousePosition()
   const scrollProgress = useScrollProgress()
   const prefersReducedMotion = useReducedMotion()
+  const { isDark } = useTheme()
 
   const isMobile     = window.innerWidth < 768
-  const enableBloom  = !isMobile
+  const enableBloom  = !isMobile && isDark
 
-  // If user prefers reduced motion: show static CSS gradient fallback
+  // If user prefers reduced motion: show static CSS fallback
   if (prefersReducedMotion) {
     return <div className="hero-canvas__fallback hero-canvas__fallback--reduced" aria-hidden="true" />
   }
@@ -61,17 +63,18 @@ export default function HeroCanvas() {
             performance={{ min: 0.5 }}
             gl={{
               antialias: false,
-              alpha: false,
+              alpha: true,
               powerPreference: 'high-performance',
             }}
             onCreated={({ gl }) => {
-              gl.setClearColor('#000000', 1.0)
+              gl.setClearColor(0x000000, 0)
             }}
           >
             <HeroScene
               mousePosition={mousePosition}
               scrollProgress={scrollProgress}
               enableBloom={enableBloom}
+              isDark={isDark}
             />
           </Canvas>
         </Suspense>

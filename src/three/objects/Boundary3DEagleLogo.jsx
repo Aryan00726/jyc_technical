@@ -10,23 +10,25 @@ import boundaryData from '../../data/logo_boundaries.json'
  * - Glowing Eagle Outline Particles & Animated Wave Lines
  * - Interactive Mouse Parallax & Uniform Right-Side Position Across Scroll
  */
-export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
+export default function Boundary3DEagleLogo({ mousePosition, scrollProgress, isDark = true }) {
   const groupRef = useRef()
   const eaglePointsRef = useRef()
   const eagleLinesRef = useRef()
 
   const { eagle } = boundaryData
 
-  // Prepare Eagle Boundary Geometry & Original Fire Colors
+  // Prepare Eagle Boundary Geometry & Fire / Maroon Colors
   const eagleData = useMemo(() => {
     const count = eagle.length
     const pos = new Float32Array(count * 3)
     const origPos = new Float32Array(count * 3)
     const cols = new Float32Array(count * 3)
 
-    const colorGold    = new THREE.Color('#EED79A')
-    const colorCrimson = new THREE.Color('#EF4444')
-    const colorAmber   = new THREE.Color('#F59E0B')
+    // Dark Mode Palette: Gold, Crimson, Amber
+    // Light Mode Palette: Royal Maroon, Deep Crimson, Antique Bronze Gold
+    const colorGold    = isDark ? new THREE.Color('#EED79A') : new THREE.Color('#B47A14')
+    const colorCrimson = isDark ? new THREE.Color('#EF4444') : new THREE.Color('#7F1E1D')
+    const colorAmber   = isDark ? new THREE.Color('#F59E0B') : new THREE.Color('#9E2625')
     const tempCol      = new THREE.Color()
 
     for (let i = 0; i < count; i++) {
@@ -41,11 +43,19 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
 
       const dist = Math.abs(x)
 
-      // Exact Original Fire Particle Color Palette
-      if (dist < 0.5) {
-        tempCol.copy(colorCrimson).lerp(colorGold, 0.4)
+      if (isDark) {
+        if (dist < 0.5) {
+          tempCol.copy(colorCrimson).lerp(colorGold, 0.4)
+        } else {
+          tempCol.copy(colorAmber).lerp(colorCrimson, (dist - 0.5) / 2.0)
+        }
       } else {
-        tempCol.copy(colorAmber).lerp(colorCrimson, (dist - 0.5) / 2.0)
+        // Light mode: rich maroon center blending out to crimson and warm bronze tips
+        if (dist < 0.5) {
+          tempCol.copy(colorCrimson).lerp(colorAmber, 0.3)
+        } else {
+          tempCol.copy(colorAmber).lerp(colorGold, (dist - 0.5) / 2.2)
+        }
       }
 
       cols[i * 3]     = tempCol.r
@@ -102,23 +112,31 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
       linePositions,
       count,
     }
-  }, [eagle])
+  }, [eagle, isDark])
 
-  // Particle Glow Texture — Authentic Fire Amber Glow
+  // Particle Glow Texture — Dynamic Fire Glow for Dark Mode & Soft Feathered Ink for Light Mode
   const particleTexture = useMemo(() => {
     const canvas = document.createElement('canvas')
     canvas.width = 64
     canvas.height = 64
     const ctx = canvas.getContext('2d')
     const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32)
-    grad.addColorStop(0, 'rgba(255, 255, 255, 1)')
-    grad.addColorStop(0.35, 'rgba(245, 158, 11, 0.9)')
-    grad.addColorStop(0.7, 'rgba(239, 68, 68, 0.45)')
-    grad.addColorStop(1, 'rgba(0, 0, 0, 0)')
+    if (isDark) {
+      grad.addColorStop(0, 'rgba(255, 255, 255, 1)')
+      grad.addColorStop(0.35, 'rgba(245, 158, 11, 0.9)')
+      grad.addColorStop(0.7, 'rgba(239, 68, 68, 0.45)')
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)')
+    } else {
+      // Soft feathered alpha circle for NormalBlending on warm ivory
+      grad.addColorStop(0, 'rgba(255, 255, 255, 1)')
+      grad.addColorStop(0.55, 'rgba(255, 255, 255, 0.90)')
+      grad.addColorStop(0.85, 'rgba(255, 255, 255, 0.40)')
+      grad.addColorStop(1, 'rgba(255, 255, 255, 0)')
+    }
     ctx.fillStyle = grad
     ctx.fillRect(0, 0, 64, 64)
     return new THREE.CanvasTexture(canvas)
-  }, [])
+  }, [isDark])
 
   // Animation Loop — Persistent Uniform Right-Side Positioning with Controlled Scroll Rotation
   useFrame((state) => {
@@ -219,13 +237,13 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.085}
+          size={isDark ? 0.085 : 0.078}
           vertexColors={true}
           map={particleTexture}
           transparent={true}
-          opacity={0.95}
+          opacity={isDark ? 0.95 : 0.88}
           depthWrite={false}
-          blending={THREE.AdditiveBlending}
+          blending={isDark ? THREE.AdditiveBlending : THREE.NormalBlending}
         />
       </points>
 
@@ -238,10 +256,10 @@ export default function Boundary3DEagleLogo({ mousePosition, scrollProgress }) {
           />
         </bufferGeometry>
         <lineBasicMaterial
-          color="#EF4444"
+          color={isDark ? '#EF4444' : '#7F1E1D'}
           transparent={true}
-          opacity={0.25}
-          blending={THREE.AdditiveBlending}
+          opacity={isDark ? 0.25 : 0.32}
+          blending={isDark ? THREE.AdditiveBlending : THREE.NormalBlending}
         />
       </lineSegments>
     </group>

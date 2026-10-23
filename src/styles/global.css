@@ -15,6 +15,7 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--duration-base) var(--ease-out), color var(--duration-base) var(--ease-out);
 }
 
 /* ── TYPOGRAPHY ────────────────────────────────────────────────────────── */
@@ -198,14 +199,14 @@ code, kbd {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--jyc-black);
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(238, 215, 154, 0.25);
+  background: var(--scrollbar-thumb);
   border-radius: var(--radius-pill);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--jyc-gold);
+  background: var(--scrollbar-thumb-hover);
 }

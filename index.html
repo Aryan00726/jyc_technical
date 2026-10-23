@@ -8,7 +8,23 @@
     <!-- Primary SEO -->
     <title>JYC Technical — Ready to Soar</title>
     <meta name="description" content="JYC Technical is the premier technical student society at Jaypee — building, learning, and soaring together through workshops, projects, and community." />
-    <meta name="theme-color" content="#0A0806" />
+    <!-- Theme & Color Scheme -->
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#000000" />
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('theme');
+          var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.style.colorScheme = theme;
+          var metaColor = document.querySelector('meta[name="theme-color"]');
+          if (metaColor) metaColor.content = theme === 'dark' ? '#000000' : '#FAF7EE';
+          var metaScheme = document.querySelector('meta[name="color-scheme"]');
+          if (metaScheme) metaScheme.content = theme;
+        } catch (e) {}
+      })();
+    </script>
 
     <!-- Open Graph -->
     <meta property="og:type"        content="website" />

@@ -15,37 +15,49 @@
   --jyc-maroon-light: #9E2625;
   --jyc-maroon-dark:  #4A0F0E;
 
-  /* ── SUPPORTING SURFACES & NEUTRALS ────────────────────────────────────── */
+  /* ── DARK THEME SUPPORTING SURFACES & NEUTRALS ───────────────────────── */
   --jyc-black:        #000000;   /* Plain black background                    */
-  --jyc-dark:         #050505;   /* Elevated surface                          */
-  --jyc-dark-2:       #0A0A0A;   /* High-elevation surface                    */
+  --jyc-dark:         #070707;   /* Elevated surface                          */
+  --jyc-dark-2:       #0F0E0D;   /* High-elevation surface                    */
   --jyc-cream:        #F6EBC7;   /* Primary readable text                     */
   --jyc-cream-dim:    #D8CBAB;   /* Secondary body text                       */
   --jyc-muted:        #8D8475;   /* Captions & subtle labels                  */
 
-  /* ── SEMANTIC TOKEN ALIASES ────────────────────────────────────────────── */
-  --color-void:             var(--jyc-black);
-  --color-surface:          var(--jyc-dark);
-  --color-surface-2:        var(--jyc-dark-2);
+  /* ── DEFAULT DARK MODE SEMANTIC TOKEN ALIASES ───────────────────────── */
+  --color-void:             #000000;
+  --color-surface:          #080808;
+  --color-surface-2:        #12100E;
+  --color-surface-glass:    rgba(14, 11, 8, 0.75);
+  --color-surface-trans:    rgba(0, 0, 0, 0.92);
+  --color-overlay:          rgba(0, 0, 0, 0.85);
   --color-border:           rgba(238, 215, 154, 0.14);
   --color-border-bright:    rgba(238, 215, 154, 0.32);
   --color-border-maroon:    rgba(127, 30, 29, 0.40);
 
   /* Text colors */
-  --color-text:             var(--jyc-cream);
-  --color-text-dim:         var(--jyc-cream-dim);
-  --color-text-muted:       var(--jyc-muted);
+  --color-text:             #F6EBC7;
+  --color-text-dim:         #D8CBAB;
+  --color-text-muted:       #8D8475;
 
   /* Accent mapping — Gold & Maroon */
-  --color-accent:           var(--jyc-gold);
-  --color-accent-hover:     var(--jyc-gold-light);
+  --color-accent:           #EED79A;
+  --color-accent-hover:     #F7E4B2;
   --color-accent-glow:      rgba(238, 215, 154, 0.24);
   --color-accent-subtle:    rgba(238, 215, 154, 0.08);
 
-  --color-brand-maroon:     var(--jyc-maroon);
-  --color-brand-maroon-hover: var(--jyc-maroon-light);
+  --color-gold-accent:      #EED79A;
+  --color-gold-hover:       #F7E4B2;
+  --color-gold-glow:        rgba(238, 215, 154, 0.24);
+
+  --color-brand-maroon:     #7F1E1D;
+  --color-brand-maroon-hover: #9E2625;
   --color-brand-maroon-glow:  rgba(127, 30, 29, 0.35);
   --color-brand-maroon-subtle: rgba(127, 30, 29, 0.12);
+
+  /* Scrollbar */
+  --scrollbar-track:        #000000;
+  --scrollbar-thumb:        rgba(238, 215, 154, 0.25);
+  --scrollbar-thumb-hover:  #EED79A;
 
   /* Semantic status */
   --color-success:          #2E8B57;
@@ -141,3 +153,52 @@
   --z-modal:   300;
   --z-top:     400;
 }
+
+/* ── LIGHT MODE COLOR GRADING SCHEME ──────────────────────────────────── */
+/* Warm Archival Ivory Parchment, Deep Royal Maroon & Antique Bronze Gold  */
+[data-theme="light"] {
+  --color-void:             #FAF7EE;   /* Warm Ivory Parchment base           */
+  --color-surface:          #FFFFFF;   /* Crisp white elevated card surface    */
+  --color-surface-2:        #F2EBD9;   /* Warm cream elevation / pills        */
+  --color-surface-glass:    rgba(255, 255, 255, 0.88); /* Glassmorphic card   */
+  --color-surface-trans:    rgba(250, 247, 238, 0.92); /* Translucent navbar  */
+  --color-overlay:          rgba(24, 19, 16, 0.65);    /* Modal backdrop blur  */
+
+  /* Borders */
+  --color-border:           rgba(127, 30, 29, 0.12); /* Subtle warm maroon border */
+  --color-border-bright:    rgba(127, 30, 29, 0.28); /* Focused / hovered border  */
+  --color-border-maroon:    rgba(127, 30, 29, 0.35);
+
+  /* Text colors with high contrast (WCAG AAA/AA) */
+  --color-text:             #181310;   /* Deep Warm Espresso Charcoal         */
+  --color-text-dim:         #4E433A;   /* Rich Muted Umber body text          */
+  --color-text-muted:       #7C6F64;   /* Refined Earthy caption text         */
+
+  /* Primary Accent: Commanding Royal Maroon & Antique Gold */
+  --color-accent:           #7F1E1D;   /* JYC Signature Royal Maroon          */
+  --color-accent-hover:     #9E2625;   /* Lighter Maroon on hover             */
+  --color-accent-glow:      rgba(127, 30, 29, 0.18);
+  --color-accent-subtle:    rgba(127, 30, 29, 0.08);
+
+  --color-gold-accent:      #B47A14;   /* Deep Antique Amber Gold             */
+  --color-gold-hover:       #9A650C;
+  --color-gold-glow:        rgba(180, 122, 20, 0.20);
+
+  --color-brand-maroon:     #7F1E1D;
+  --color-brand-maroon-hover: #9E2625;
+  --color-brand-maroon-glow:  rgba(127, 30, 29, 0.25);
+  --color-brand-maroon-subtle: rgba(127, 30, 29, 0.10);
+
+  /* Shadows (Warm soft umber ambient shadows) */
+  --shadow-sm:     0 2px 8px rgba(35, 20, 10, 0.06);
+  --shadow-md:     0 8px 24px rgba(35, 20, 10, 0.08);
+  --shadow-lg:     0 16px 44px rgba(35, 20, 10, 0.12);
+  --shadow-gold:   0 0 24px rgba(180, 122, 20, 0.20);
+  --shadow-maroon: 0 0 24px rgba(127, 30, 29, 0.20);
+
+  /* Scrollbar */
+  --scrollbar-track:        #F0E8D5;
+  --scrollbar-thumb:        rgba(127, 30, 29, 0.28);
+  --scrollbar-thumb-hover:  #7F1E1D;
+}
+

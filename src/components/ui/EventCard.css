@@ -2,22 +2,24 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  background: rgba(18, 16, 13, 0.7);
+  background: var(--color-surface-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
   transition: transform var(--duration-base) var(--ease-out),
               border-color var(--duration-base) var(--ease-out),
-              box-shadow var(--duration-base) var(--ease-out);
+              box-shadow var(--duration-base) var(--ease-out),
+              background-color var(--duration-base) var(--ease-out);
   height: 100%;
 }
 
 .event-card:hover {
   transform: translateY(-4px);
   border-color: var(--color-border-bright);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), 0 0 20px var(--color-accent-glow);
+  box-shadow: var(--shadow-lg), 0 0 20px var(--color-accent-glow);
 }
 
 .event-card__image-wrap {
