@@ -58,7 +58,7 @@ export function WhoWeAreSection() {
             <div
               key={idx}
               style={{
-                background: 'rgba(18, 16, 13, 0.75)',
+                background: 'var(--color-surface-glass)',
                 backdropFilter: 'blur(12px)',
                 WebkitBackdropFilter: 'blur(12px)',
                 border: '1px solid var(--color-border)',
@@ -67,25 +67,26 @@ export function WhoWeAreSection() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '16px',
+                boxShadow: 'var(--shadow-sm)',
                 transition: 'all 250ms cubic-bezier(0.16, 1, 0.3, 1)'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-4px)';
                 e.currentTarget.style.borderColor = 'var(--color-border-bright)';
-                e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.6), 0 0 20px var(--color-accent-glow)';
+                e.currentTarget.style.boxShadow = 'var(--shadow-md)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.borderColor = 'var(--color-border)';
-                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
               }}
             >
               <div style={{
                 width: '52px',
                 height: '52px',
                 borderRadius: 'var(--radius-md)',
-                background: 'rgba(238, 215, 154, 0.08)',
-                border: '1px solid rgba(238, 215, 154, 0.2)',
+                background: 'var(--color-accent-subtle)',
+                border: '1px solid var(--color-border)',
                 color: 'var(--color-accent)',
                 display: 'flex',
                 alignItems: 'center',

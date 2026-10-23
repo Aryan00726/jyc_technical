@@ -33,17 +33,17 @@ export function WhyUsSection() {
       <div className="container">
         {/* Metric Stats Banner */}
         <div style={{
-          background: 'linear-gradient(135deg, rgba(127, 30, 29, 0.4) 0%, rgba(18, 16, 13, 0.9) 100%)',
+          background: 'var(--color-surface-glass)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          border: '1px solid var(--color-border-bright)',
+          border: '1px solid var(--color-border)',
           borderRadius: 'var(--radius-xl)',
           padding: '36px var(--container-px)',
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
           gap: '28px',
           marginBottom: '64px',
-          boxShadow: '0 16px 48px rgba(0,0,0,0.8), 0 0 32px var(--color-brand-maroon-glow)'
+          boxShadow: 'var(--shadow-md)'
         }}>
           {STATS.map((stat, idx) => (
             <div key={idx} style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -51,7 +51,7 @@ export function WhyUsSection() {
                 fontFamily: 'var(--font-display)',
                 fontSize: 'var(--text-3xl)',
                 fontWeight: 'var(--weight-black)',
-                color: 'var(--jyc-gold)',
+                color: 'var(--color-accent)',
                 textShadow: '0 0 20px var(--color-accent-glow)'
               }}>
                 {stat.value}
@@ -93,17 +93,19 @@ export function WhyUsSection() {
               <div
                 key={idx}
                 style={{
-                  background: 'rgba(18, 16, 13, 0.7)',
+                  background: 'var(--color-surface-glass)',
                   backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
                   border: '1px solid var(--color-border)',
                   borderRadius: 'var(--radius-md)',
                   padding: '20px 24px',
                   display: 'flex',
-                  gap: '16px'
+                  gap: '16px',
+                  boxShadow: 'var(--shadow-sm)'
                 }}
               >
                 <div style={{
-                  color: 'var(--jyc-gold)',
+                  color: 'var(--color-accent)',
                   fontSize: '18px',
                   fontWeight: 'bold',
                   flexShrink: 0,

@@ -51,16 +51,16 @@
 
 /* ── VARIANTS ──────────────────────────────────────────────────────────── */
 
-/* Primary Maroon Button with Gold Accent */
+/* Primary Maroon Button with Accent Glow */
 .btn--primary {
-  background: var(--jyc-maroon);
-  color: var(--jyc-cream);
+  background: var(--color-brand-maroon);
+  color: #FFFFFF;
   border: 1px solid rgba(238, 215, 154, 0.25);
 }
 
 .btn--primary:hover {
   background: var(--color-brand-maroon-hover);
-  color: var(--jyc-gold-light);
+  color: #FFFFFF;
   box-shadow: 0 0 24px var(--color-brand-maroon-glow);
 }
 
@@ -77,17 +77,28 @@
   box-shadow: 0 0 28px var(--color-accent-glow);
 }
 
+[data-theme="light"] .btn--gold {
+  background: var(--color-gold-accent);
+  color: #FFFFFF;
+  border-color: var(--color-gold-accent);
+}
+
+[data-theme="light"] .btn--gold:hover {
+  background: var(--color-gold-hover);
+  box-shadow: 0 4px 20px var(--color-gold-glow);
+}
+
 /* Secondary / Bordered Button */
 .btn--secondary {
-  background: rgba(238, 215, 154, 0.05);
-  color: var(--jyc-cream);
-  border: 1px solid var(--color-border-bright);
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
 }
 
 .btn--secondary:hover {
-  border-color: var(--jyc-gold);
-  color: var(--jyc-gold);
-  background: rgba(238, 215, 154, 0.12);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: var(--color-accent-subtle);
   box-shadow: 0 0 20px var(--color-accent-glow);
 }
 
@@ -99,21 +110,21 @@
 }
 
 .btn--ghost:hover {
-  border-color: var(--jyc-gold);
-  color: var(--jyc-gold);
-  background: rgba(238, 215, 154, 0.08);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: var(--color-accent-subtle);
 }
 
 /* Text Link Variant */
 .btn--text {
   background: transparent;
-  color: var(--jyc-gold);
+  color: var(--color-accent);
   padding-inline: 0;
   border-radius: 0;
 }
 
 .btn--text:hover {
-  color: var(--jyc-gold-light);
+  color: var(--color-accent-hover);
 }
 
 .btn--text::after {
@@ -126,10 +137,10 @@
   transform: translateX(4px);
 }
 
-/* Underline Text Link Variant */
+/* Underline Text Link Variant (Used in Hero CTAs) */
 .btn--underline {
   background: transparent;
-  color: #FFFFFF;
+  color: var(--color-text);
   padding: 6px 0;
   border-radius: 0;
   border: none;
@@ -149,18 +160,19 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background: var(--jyc-gold);
+  background: var(--color-accent);
   transform: scaleX(0.35);
   transform-origin: left;
   transition: transform var(--duration-base) var(--ease-out), background-color var(--duration-fast) var(--ease-out);
 }
 
 .btn--underline:hover {
-  color: var(--jyc-gold-light);
+  color: var(--color-accent);
 }
 
 .btn--underline:hover::after {
   transform: scaleX(1);
-  background: var(--jyc-gold-light);
+  background: var(--color-accent);
 }
+
 

@@ -239,7 +239,7 @@
 .mobile-menu__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(10, 8, 6, 0.85);
+  background: var(--color-surface-trans);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }

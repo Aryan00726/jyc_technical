@@ -92,9 +92,12 @@ export default function Events() {
           <div style={{
             textAlign: 'center',
             padding: '60px var(--container-px)',
-            background: 'rgba(18, 16, 13, 0.6)',
+            background: 'var(--color-surface-glass)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
             border: '1px dashed var(--color-border)',
-            borderRadius: 'var(--radius-lg)'
+            borderRadius: 'var(--radius-lg)',
+            boxShadow: 'var(--shadow-sm)'
           }}>
             <h3 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text)', marginBottom: '8px' }}>
               No Events Found

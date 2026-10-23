@@ -122,9 +122,12 @@ export default function DoubtDetails() {
             <div style={{
               textAlign: 'center',
               padding: '36px var(--container-px)',
-              background: 'rgba(18, 16, 13, 0.6)',
+              background: 'var(--color-surface-glass)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
               border: '1px dashed var(--color-border)',
-              borderRadius: 'var(--radius-lg)'
+              borderRadius: 'var(--radius-lg)',
+              boxShadow: 'var(--shadow-sm)'
             }}>
               <p style={{ color: 'var(--color-text-dim)', fontSize: 'var(--text-sm)', margin: 0 }}>
                 No answers posted yet. If you know the answer or want to guide a peer, write a response below!
